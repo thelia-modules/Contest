@@ -27,11 +27,11 @@
 
                 <div class="form-container">
                     <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
-
+                    {loop type="participate" name="participate_id" id=$participate_id limit=1}
                         {include "includes/inner-form-toolbar.html"
-                        close_url = {url path="/admin/module/Contest/participate"}
+                        close_url = {url path="/admin/module/Contest/participate" game=$GAME_ID}
                         }
-
+                    {/loop}
                         {form_field form=$form field="id"}
                         {assign "participate_id" $value}
                             <input type="hidden" name="{$name}" value="{$value}"/>

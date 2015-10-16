@@ -26,12 +26,12 @@
                 </div>
 
                 <div class="form-container">
-                    <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
-
-                        {include "includes/inner-form-toolbar.html"
-                        close_url = {url path="/admin/module/Contest/question"}
-                        }
-
+                    <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix">
+                        {loop type="question" name="question_back" id=$question_id limit=1}
+                            {include "includes/inner-form-toolbar.html"
+                            close_url = {url path="/admin/module/Contest/question" game=$GAME_ID}
+                            }
+                        {/loop}
                         {form_field form=$form field="id"}
                         {assign "question_id" $value}
                             <input type="hidden" name="{$name}" value="{$value}"/>
@@ -56,7 +56,9 @@
 
                                             {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Question title'}" />
+                                            <input type="text" class="form-control" name="{$name}"
+                                                   id="{$label_attr.for}" value="{$TITLE}"
+                                                   placeholder="{intl l='The Question title'}"/>
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="description"}
@@ -68,7 +70,8 @@
 
                                             {form_error form=$form field="description"}{$message}{/form_error}
 
-                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The Question description'}">{$DESCRIPTION}</textarea>
+                                            <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
+                                                      placeholder="{intl l='The Question description'}">{$DESCRIPTION}</textarea>
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="game_id"}
@@ -80,21 +83,23 @@
 
                                             {form_error form=$form field="game_id"}{$message}{/form_error}
 
-                                                <input type="number" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Question game_id'}" />
+                                            <input type="number" class="form-control" name="{$name}"
+                                                   id="{$label_attr.for}" value="{$GAME_ID}"
+                                                   placeholder="{intl l='The Question game_id'}"/>
                                         </div>
                                     {/form_field}
 
                                     {include "includes/inner-form-toolbar.html"
-                                        hide_flags = true
-                                        close_url = {url path="/admin/module/Contest/question"}
+                                    hide_flags = true
+                                    close_url = {url path="/admin/module/Contest/question"}
                                     }
 
                                     <small>
                                         {intl
-                                            l="Question created on %created_at. Last modification: %updated_at"
-                                            created_at={format_date date=$CREATE_DATE}
-                                            updated_at={format_date date=$UPDATE_DATE}
-                                            d="contest.bo.default"
+                                        l="Question created on %created_at. Last modification: %updated_at"
+                                        created_at={format_date date=$CREATE_DATE}
+                                        updated_at={format_date date=$UPDATE_DATE}
+                                        d="contest.bo.default"
                                         }
                                     </small>
                                 </div>

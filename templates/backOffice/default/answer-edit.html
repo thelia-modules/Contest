@@ -26,12 +26,12 @@
                 </div>
 
                 <div class="form-container">
-                    <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
-
-                        {include "includes/inner-form-toolbar.html"
-                        close_url = {url path="/admin/module/Contest/answer"}
-                        }
-
+                    <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix">
+                        {loop type="answer" name="answer-back" id=$answer_id limit=1}
+                            {include "includes/inner-form-toolbar.html"
+                            close_url = {url path="/admin/module/Contest/answer" question=$QUESTION_ID}
+                            }
+                        {/loop}
                         {form_field form=$form field="id"}
                         {assign "answer_id" $value}
                             <input type="hidden" name="{$name}" value="{$value}"/>
@@ -56,7 +56,9 @@
 
                                             {form_error form=$form field="correct"}{$message}{/form_error}
 
-                                                <input type="checkbox" class="form-control" name="{$name}" id="{$label_attr.for}" {if $CORRECT}checked{/if} placeholder="{intl l='The Answer correct'}" />
+                                            <input type="checkbox" class="form-control" name="{$name}"
+                                                   id="{$label_attr.for}" {if $CORRECT}checked{/if}
+                                                   placeholder="{intl l='The Answer correct'}"/>
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="title"}
@@ -68,7 +70,9 @@
 
                                             {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Answer title'}" />
+                                            <input type="text" class="form-control" name="{$name}"
+                                                   id="{$label_attr.for}" value="{$TITLE}"
+                                                   placeholder="{intl l='The Answer title'}"/>
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="description"}
@@ -80,7 +84,8 @@
 
                                             {form_error form=$form field="description"}{$message}{/form_error}
 
-                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
+                                            <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
+                                                      placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="question_id"}
@@ -92,21 +97,23 @@
 
                                             {form_error form=$form field="question_id"}{$message}{/form_error}
 
-                                                <input type="number" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id'}" />
+                                            <input type="number" class="form-control" name="{$name}"
+                                                   id="{$label_attr.for}" value="{$QUESTION_ID}"
+                                                   placeholder="{intl l='The Answer question_id'}"/>
                                         </div>
                                     {/form_field}
 
                                     {include "includes/inner-form-toolbar.html"
-                                        hide_flags = true
-                                        close_url = {url path="/admin/module/Contest/answer"}
+                                    hide_flags = true
+                                    close_url = {url path="/admin/module/Contest/answer"}
                                     }
 
                                     <small>
                                         {intl
-                                            l="Answer created on %created_at. Last modification: %updated_at"
-                                            created_at={format_date date=$CREATE_DATE}
-                                            updated_at={format_date date=$UPDATE_DATE}
-                                            d="contest.bo.default"
+                                        l="Answer created on %created_at. Last modification: %updated_at"
+                                        created_at={format_date date=$CREATE_DATE}
+                                        updated_at={format_date date=$UPDATE_DATE}
+                                        d="contest.bo.default"
                                         }
                                     </small>
                                 </div>

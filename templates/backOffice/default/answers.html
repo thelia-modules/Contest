@@ -30,17 +30,22 @@
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
-                                <a class="btn btn-default btn-primary" title="{intl l='Create a new Answer entry' d='contest.bo.default'}" data-target="#answer-create" data-toggle="modal">
+                                <a class="btn btn-default btn-primary"
+                                   title="{intl l='Create a new Answer entry' d='contest.bo.default'}"
+                                   data-target="#answer-create" data-toggle="modal">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                 </a>
                             </div>
                         {/loop}
                         {if $question_id}
+                            {loop type="question" name="question_back" id=$question_id limit=1}
                             <div class="pull-right">
-                                <a class="btn btn-default btn-primary" title="{intl l='Go Back' d='contest.bo.default'}" href="{navigate to="previous"}"">
+                                <a class="btn btn-default btn-primary" title="{intl l='Go Back' d='contest.bo.default'}"
+                                   href="{url path="/admin/module/Contest/question" game=$GAME_ID}">
                                 <i class="glyphicon glyphicon-arrow-left"></i>
                                 </a>
                             </div>
+                            {/loop}
                         {/if}
                     </caption>
 
@@ -48,47 +53,47 @@
                     <tr>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='id'
-                                reverse_order='id-reverse'
-                                path={url path='/admin/module/Contest/answer' target='answer-table'}
-                                label="{intl l='Id' d='contest.bo.default'}"
+                            current_order=$order
+                            order='id'
+                            reverse_order='id-reverse'
+                            path={url path='/admin/module/Contest/answer' target='answer-table'}
+                            label="{intl l='Id' d='contest.bo.default'}"
                             }
                         </th>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='visible'
-                                reverse_order='visible-reverse'
-                                path={url path='/admin/module/Contest/answer' target='answer-table'}
-                                label="{intl l='Visible' d='contest.bo.default'}"
+                            current_order=$order
+                            order='visible'
+                            reverse_order='visible-reverse'
+                            path={url path='/admin/module/Contest/answer' target='answer-table'}
+                            label="{intl l='Visible' d='contest.bo.default'}"
                             }
                         </th>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='correct'
-                                reverse_order='correct-reverse'
-                                path={url path='/admin/module/Contest/answer' target='answer-table'}
-                                label="{intl l='Correct' d='contest.bo.default'}"
+                            current_order=$order
+                            order='correct'
+                            reverse_order='correct-reverse'
+                            path={url path='/admin/module/Contest/answer' target='answer-table'}
+                            label="{intl l='Correct' d='contest.bo.default'}"
                             }
                         </th>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='title'
-                                reverse_order='title-reverse'
-                                path={url path='/admin/module/Contest/answer' target='answer-table'}
-                                label="{intl l='Title' d='contest.bo.default'}"
+                            current_order=$order
+                            order='title'
+                            reverse_order='title-reverse'
+                            path={url path='/admin/module/Contest/answer' target='answer-table'}
+                            label="{intl l='Title' d='contest.bo.default'}"
                             }
                         </th>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='question_id'
-                                reverse_order='question_id-reverse'
-                                path={url path='/admin/module/Contest/answer' target='answer-table'}
-                                label="{intl l='QuestionId' d='contest.bo.default'}"
+                            current_order=$order
+                            order='question_id'
+                            reverse_order='question_id-reverse'
+                            path={url path='/admin/module/Contest/answer' target='answer-table'}
+                            label="{intl l='QuestionId' d='contest.bo.default'}"
                             }
                         </th>
                         <th>
@@ -105,19 +110,27 @@
                             </td>
                             <td>
                                 {loop type="auth" name="can_change" role="ADMIN" resource="admin.module" module="Contest" access="UPDATE"}
-                                    <div class="make-switch visibleToggle" data-id="{$ID}"  data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-                                        <input type="checkbox" class="visibleToggle" {if $VISIBLE}checked="checked"{/if}>
+                                    <div class="make-switch visibleToggle" data-id="{$ID}" data-on="success"
+                                         data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>"
+                                         data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+                                        <input type="checkbox" class="visibleToggle"
+                                               {if $VISIBLE}checked="checked"{/if}>
                                     </div>
                                 {/loop}
 
                                 {elseloop rel="can_change"}
-                                    <div class="make-switch switch-small" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-                                        <input type="checkbox" class="disabled" disabled="disabled" {if $VISIBLE}checked="checked"{/if}>
+                                    <div class="make-switch switch-small" data-on="success" data-off="danger"
+                                         data-on-label="<i class='glyphicon glyphicon-ok'></i>"
+                                         data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+                                        <input type="checkbox" class="disabled" disabled="disabled"
+                                               {if $VISIBLE}checked="checked"{/if}>
                                     </div>
                                 {/elseloop}
                             </td>
                             <td>
-                                <div class="make-switch switch-small" data-id="{$ID}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+                                <div class="make-switch switch-small" data-id="{$ID}" data-on="success"
+                                     data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>"
+                                     data-off-label="<i class='glyphicon glyphicon-remove'></i>">
                                     <input type="checkbox" disabled readonly {if $CORRECT}checked="checked"{/if} />
                                 </div>
                             </td>
@@ -131,12 +144,16 @@
                             <td>
                                 <div class="btn-group">
                                     {loop name="auth-edit" type="auth" role="ADMIN" resource="admin.module" access="UPDATE" module="Contest"}
-                                        <a class="btn btn-default btn-xs" title="{intl l='Edit this Answer' d='contest.bo.default'}"  href="{url path='/admin/module/Contest/answer/edit' answer_id=$ID}">
+                                        <a class="btn btn-default btn-xs"
+                                           title="{intl l='Edit this Answer' d='contest.bo.default'}"
+                                           href="{url path='/admin/module/Contest/answer/edit' answer_id=$ID}">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </a>
                                     {/loop}
                                     {loop name="auth-delete" type="auth" role="ADMIN" resource="admin.module" access="DELETE" module="Contest"}
-                                        <a class="btn btn-default btn-xs answer-delete" title="{intl l='Delete this Answer' d='contest.bo.default'}" data-target="#answer-delete" data-toggle="modal" data-id="{$ID}">
+                                        <a class="btn btn-default btn-xs answer-delete"
+                                           title="{intl l='Delete this Answer' d='contest.bo.default'}"
+                                           data-target="#answer-delete" data-toggle="modal" data-id="{$ID}">
                                             <i class="glyphicon glyphicon-trash"></i>
                                         </a>
                                     {/loop}
@@ -156,7 +173,7 @@
                     </tbody>
 
                     {ifloop rel="answer-list"}
-                    <tfoot>
+                        <tfoot>
                         <tr>
                             <td colspan="7">
                                 {include
@@ -168,15 +185,13 @@
                                 }
                             </td>
                         </tr>
-                    </tfoot>
+                        </tfoot>
                     {/ifloop}
 
                 </table>
             </div>
         </div>
     </div>
-
-
     {* CREATE Modal *}
 
     {form name="answer.create"}
@@ -184,7 +199,7 @@
         {form_hidden_fields form=$form}
 
         {form_field form=$form field="locale"}
-            <input type="hidden" name="{$name}" value="{$edit_language_locale}" />
+            <input type="hidden" name="{$name}" value="{$edit_language_locale}"/>
         {/form_field}
 
         {render_form_field form=$form field="success_url" value={url path='/admin/module/Contest/answer/edit?answer_id=_ID_'}}
@@ -198,7 +213,8 @@
 
                 {form_error form=$form field="visible"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Answer visible'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if}
+                       placeholder="{intl l='The Answer visible'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="correct"}
@@ -210,7 +226,8 @@
 
                 {form_error form=$form field="correct"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $CORRECT}checked{/if} placeholder="{intl l='The Answer correct'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $CORRECT}checked{/if}
+                       placeholder="{intl l='The Answer correct'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -222,7 +239,8 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Answer title'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}"
+                       placeholder="{intl l='The Answer title'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="description"}
@@ -234,35 +252,39 @@
 
                 {form_error form=$form field="description"}{$message}{/form_error}
 
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
+                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
+                          placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
             </div>
         {/form_field}
         {form_field form=$form field="question_id"}
             <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="question_id"}{$message}{/form_error}
-
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id'}" />
-            </div>
+                {if $question_id}
+                    <input type="integer" class="form-control hidden" name="{$name}" id="{$label_attr.for}"
+                           value="{$question_id}"/>
+                {else}
+                    <label class="control-label" for="{$label_attr.for}">
+                        {$label}
+                        {if $required}<span class="required">*</span>{/if}
+                    </label>
+                    {form_error form=$form field="question_id"}{$message}{/form_error}
+                    <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}"
+                           value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id'}"/>
+                {/if}</div>
         {/form_field}
     {/capture}
 
-    {include file="includes/generic-create-dialog.html"
+        {include file="includes/generic-create-dialog.html"
 
 
         dialog_id       = "answer-create"
         dialog_title    = {intl l="Create an entry of Answer" d="contest.bo.default"}
         dialog_body     = {$smarty.capture.answer_create nofilter}
 
-        dialog_ok_label     = {intl l="Create"}
-        dialog_cancel_label = {intl l="Cancel"}
+    dialog_ok_label     = {intl l="Create"}
+    dialog_cancel_label = {intl l="Cancel"}
 
-        form_action        = {$current_url}
-        form_enctype       = {form_enctype form=$form}
+    form_action        = {$current_url}
+    form_enctype       = {form_enctype form=$form}
     }
     {/form}
 
@@ -271,20 +293,20 @@
 
     {capture "answer_delete"}
         {intl l="Do you really want to delete this Answer entry ?" d="contest.bo.default"}
-        <input type="hidden" name="answer_id" id="answer_delete_id" value="" />
+        <input type="hidden" name="answer_id" id="answer_delete_id" value=""/>
     {/capture}
 
     {include file="includes/generic-confirm-dialog.html"
 
-        dialog_id       = "answer-delete"
-        dialog_title    = {intl l="Delete an entry of Answer" d="contest.bo.default"}
-        dialog_message  = {$smarty.capture.answer_delete nofilter}
+    dialog_id       = "answer-delete"
+    dialog_title    = {intl l="Delete an entry of Answer" d="contest.bo.default"}
+    dialog_message  = {$smarty.capture.answer_delete nofilter}
 
-        dialog_ok_label     = {intl l="Delete"}
-        dialog_cancel_label = {intl l="Cancel"}
+dialog_ok_label     = {intl l="Delete"}
+dialog_cancel_label = {intl l="Cancel"}
 
-        form_action         = {token_url path='/admin/module/Contest/answer/delete'}
-    }
+form_action         = {token_url path='/admin/module/Contest/answer/delete'}
+}
 {/block}
 
 {block name="javascript-initialization"}
@@ -292,19 +314,19 @@
         <script src="{$asset_url}"></script>
     {/javascripts}
     <script>
-        $(function() {
-            $('a.answer-delete').click(function(ev) {
+        $(function () {
+            $('a.answer-delete').click(function (ev) {
                 $('#answer_delete_id').val($(this).data('id'));
             });
 
             {* Visibility toggle *}
 
-            $(".visibleToggle").on('switch-change', function(event, data) {
+            $(".visibleToggle").on('switch-change', function (event, data) {
                 $.ajax({
-                    url : "{url path='admin/module/Contest/answer/toggleVisibility'}",
-                    data : {
-                        answer_id : $(this).data('id'),
-                        action : 'visibilityToggle'
+                    url: "{url path='admin/module/Contest/answer/toggleVisibility'}",
+                    data: {
+                        answer_id: $(this).data('id'),
+                        action: 'visibilityToggle'
                     }
                 });
             });

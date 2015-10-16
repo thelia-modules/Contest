@@ -216,14 +216,18 @@
         {/form_field}
         {form_field form=$form field="game_id"}
             <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
+                {if $game_id}
+                    <input type="integer" class="form-control hidden" name="{$name}" id="{$label_attr.for}" value="{$game_id}"/>
+                 {else}
+                    <label class="control-label" for="{$label_attr.for}">
+                        {$label}
+                        {if $required}<span class="required">*</span>{/if}
+                    </label>
 
-                {form_error form=$form field="game_id"}{$message}{/form_error}
+                    {form_error form=$form field="game_id"}{$message}{/form_error}
+                    <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Question game_id'}" />
+                {/if}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Question game_id'}" />
             </div>
         {/form_field}
     {/capture}
