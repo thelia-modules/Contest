@@ -12,6 +12,7 @@
 {block name="check-module"}Contest{/block}
 
 {block name="main-content"}
+    {$game_id={$smarty.get.game}}
     <div id="wrapper" class="container">
 
         {if $general_error}
@@ -25,7 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="question-table">
                     <caption class="clearfix">
-                        {intl l="Question"}
+                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Question"}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -34,6 +35,13 @@
                                 </a>
                             </div>
                         {/loop}
+                        {if $game_id}
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-primary" title="{intl l='Go Back' d='contest.bo.default'}" href="{url path="/admin/module/Contest/game"}">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                </a>
+                            </div>
+                        {/if}
                     </caption>
 
                     <thead>
@@ -81,7 +89,7 @@
                     </thead>
 
                     <tbody>
-                    {loop name="question-list" type="question" order=$order}
+                    {loop name="question-list" type="question" order=$order game_id=$game_id}
                         <tr>
                             <td>
                                 <a href="{url path='/admin/module/Contest/question/edit' question_id=$ID}">{$ID}</a>
@@ -108,6 +116,9 @@
                             {* Actions *}
                             <td>
                                 <div class="btn-group">
+                                    <a class="btn btn-default btn-xs" title="{intl l='Edit Answers' d='contest.bo.default'}"  href="{url path='/admin/module/Contest/answer' question=$ID}">
+                                        <i class="glyphicon glyphicon-folder-open"></i>
+                                    </a>
                                     {loop name="auth-edit" type="auth" role="ADMIN" resource="admin.module" access="UPDATE" module="Contest"}
                                         <a class="btn btn-default btn-xs" title="{intl l='Edit this Question' d='contest.bo.default'}"  href="{url path='/admin/module/Contest/question/edit' question_id=$ID}">
                                             <i class="glyphicon glyphicon-edit"></i>

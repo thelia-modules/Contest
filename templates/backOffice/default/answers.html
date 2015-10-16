@@ -12,6 +12,7 @@
 {block name="check-module"}Contest{/block}
 
 {block name="main-content"}
+    {$question_id={$smarty.get.question}}
     <div id="wrapper" class="container">
 
         {if $general_error}
@@ -25,7 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="answer-table">
                     <caption class="clearfix">
-                        {intl l="Answer"}
+                        {if $question_id}{loop type="question" name="question-title" id=$question_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Answer"}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -34,6 +35,13 @@
                                 </a>
                             </div>
                         {/loop}
+                        {if $question_id}
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-primary" title="{intl l='Go Back' d='contest.bo.default'}" href="{navigate to="previous"}"">
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                </a>
+                            </div>
+                        {/if}
                     </caption>
 
                     <thead>
@@ -90,7 +98,7 @@
                     </thead>
 
                     <tbody>
-                    {loop name="answer-list" type="answer" order=$order}
+                    {loop name="answer-list" type="answer" order=$order question_id=$question_id}
                         <tr>
                             <td>
                                 <a href="{url path='/admin/module/Contest/answer/edit' answer_id=$ID}">{$ID}</a>
