@@ -58,7 +58,7 @@
                     </ul>
 
                     {loop type="auth" name="customer_test" role="CUSTOMER"}
-                        <input id="cutomer_id" type="text" class="hidden" value="{$ID}" />
+                        <input id="customer_id" type="text" class="hidden" value="{customer attr="id"}" />
                     {/loop}
                     {elseloop rel="customer_test"}
                         <input id="email" type="email" placeholder="email" class="form-control" />
@@ -94,7 +94,7 @@
                 if($mail.length > 0){
                     data["email"] = $mail.val();
                 }
-                var $customer = $("customer_id");
+                var $customer = $("#customer_id");
                 if($customer.length > 0){
                     data["customer_id"] = $customer.val();
                 }
