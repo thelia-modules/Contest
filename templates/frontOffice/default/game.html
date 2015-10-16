@@ -101,9 +101,10 @@
 
                 if(game_is_correct){
                     $.post("/contest/game/{$game_id}",data,function(data){
-                        alert(data.message);
+                        if(data.url){
+                            window.location = data.url;
+                        }
                     }).fail(function(data) {
-                        alert(data.message);
                     });
                 }
 

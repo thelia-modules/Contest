@@ -87,9 +87,9 @@ class FrontController extends BaseFrontController
             /* TODO : Voir les conditions de victoire */
             $event->setWin($all_correct);
             if ($all_correct) {
-                $retour["redirect_url"] = "";
+                $retour["url"] = $this->getRouteFromRouter("router.contest","contest.front.game.success",["id"=>$id]);
             } else {
-                $retour["redirect_url"] = "";
+                $retour["url"] = $this->getRouteFromRouter("router.contest","contest.front.game.fail",["id"=>$id]);
             }
 
             /* Create participate */
@@ -103,6 +103,14 @@ class FrontController extends BaseFrontController
 
 
         return JsonResponse::create($retour);
+    }
+
+    public function successGameAction($id){
+        return $this->render("game-success",["game_id" => $id]);
+    }
+
+    public function failGameAction($id){
+        return $this->render("game-fail",["game_id" => $id]);
     }
 
     protected function isCorrectQuestion(Question $question, $answer_data)

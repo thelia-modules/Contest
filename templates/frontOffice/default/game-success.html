@@ -1,0 +1,38 @@
+{extends file="layout.tpl"}
+
+{* Body Class *}
+{block name="body-class"}page-game{/block}
+
+{* Page Title *}
+{block name='no-return-functions' append}
+  {loop name="game.seo.title" type="game" id=$game_id limit="1"}
+  {$page_title = {$TITLE}}
+  {/loop}
+{/block}
+
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+  {$breadcrumbs = []}
+  {loop type="game" name="game_breadcrumb" id=$game_id limit="1"}
+  {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> "#"]}
+  {/loop}
+{/block}
+
+{* Content *}
+{block name="main-content"}
+    {if $game_id}
+    <div class="main">
+    {loop name="game.details" type="game" id=$game_id limit=1}
+    <article id="game" class="col-main" role="main">
+    <h1 id="main-label" class="page-header">{$TITLE}</h1>
+        <h2>{intl l="Success"}</h2>
+        <p>{intl l="You correctly anwser of questions"}</p>
+        <p>{intl l="You receivle shortlyy a message if you win !"}</p>
+        <p>{intl l="See you"}</p>
+        <a class="btn btn-primary center-block" href="{url path="/"}">{intl l="Go home"}</a>
+    </article>
+        {/loop}
+    </div>
+    {/if}
+{/block}

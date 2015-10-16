@@ -103,5 +103,13 @@
         <default key="_controller">Contest:Front:processGame</default>
         <requirement key="id">\d+</requirement>
     </route>
+    <route id="contest.front.game.success" path="contest/game/success/{id}" methods="get">
+        <default key="_controller">Contest:Front:successGame</default>
+        <requirement key="id">\d+</requirement>
+    </route>
+    <route id="contest.front.game.fail" path="contest/game/fail/{id}" methods="get">
+        <default key="_controller">Contest:Front:failGame</default>
+        <requirement key="id">\d+</requirement>
+    </route>
 
 </routes>
