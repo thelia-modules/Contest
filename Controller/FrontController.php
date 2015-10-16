@@ -28,11 +28,21 @@ use Thelia\Core\HttpFoundation\JsonResponse;
  */
 class FrontController extends BaseFrontController
 {
+    /**
+     * Render Game
+     * @param $id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
     public function gameAction($id)
     {
         return $this->render("game", ["game_id" => $id]);
     }
 
+    /**
+     * Process the game
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response|static
+     */
     public function processGameAction($id)
     {
 
@@ -105,14 +115,31 @@ class FrontController extends BaseFrontController
         return JsonResponse::create($retour);
     }
 
+    /**
+     * Render Success page
+     * @param $id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
     public function successGameAction($id){
         return $this->render("game-success",["game_id" => $id]);
     }
 
+    /**
+     * Render Fail page
+     * @param $id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
     public function failGameAction($id){
         return $this->render("game-fail",["game_id" => $id]);
     }
 
+    /**
+     * Test if anwsers are correct for the question
+     * @param Question $question
+     * @param $answer_data
+     * @return bool
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
     protected function isCorrectQuestion(Question $question, $answer_data)
     {
         $answers = AnswerQuery::create()->filterByCorrect(false)->filterByQuestion($question)->filterById($answer_data)->find();
