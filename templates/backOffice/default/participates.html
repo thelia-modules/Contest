@@ -13,7 +13,7 @@
 
 {block name="main-content"}
     <div id="wrapper" class="container">
-
+        {$game_id={$smarty.get.game}}
         {if $general_error}
             <div class="alert alert-danger">
                 {$general_error}
@@ -25,7 +25,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="participate-table">
                     <caption class="clearfix">
-                        {intl l="Participate"}
+                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Participate"}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -34,6 +34,13 @@
                                 </a>
                             </div>
                         {/loop}
+                        {if $game_id}
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-primary" title="{intl l='Go Back' d='contest.bo.default'}" href="{url path="/admin/module/Contest/game"}">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                </a>
+                            </div>
+                        {/if}
                     </caption>
 
                     <thead>
@@ -68,15 +75,6 @@
                         <th>
                             {admin_sortable_header
                                 current_order=$order
-                                order='game_id'
-                                reverse_order='game_id-reverse'
-                                path={url path='/admin/module/Contest/participate' target='participate-table'}
-                                label="{intl l='GameId' d='contest.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
                                 order='customer_id'
                                 reverse_order='customer_id-reverse'
                                 path={url path='/admin/module/Contest/participate' target='participate-table'}
@@ -90,7 +88,7 @@
                     </thead>
 
                     <tbody>
-                    {loop name="participate-list" type="participate" order=$order}
+                    {loop name="participate-list" type="participate" order=$order game_id=$game_id}
                         <tr>
                             <td>
                                 <a href="{url path='/admin/module/Contest/participate/edit' participate_id=$ID}">{$ID}</a>
@@ -99,12 +97,7 @@
                                 {$EMAIL}
                             </td>
                             <td>
-                                <div class="make-switch switch-small" data-id="{$ID}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-                                    <input type="checkbox" disabled readonly {if $WIN}checked="checked"{/if} />
-                                </div>
-                            </td>
-                            <td>
-                                {$GAME_ID}
+                                {if $WIN}{intl l="WIN"}{else}{intl l="FAIL"}{/if}
                             </td>
                             <td>
                                 {$CUSTOMER_ID}

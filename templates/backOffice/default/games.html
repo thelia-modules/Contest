@@ -99,7 +99,7 @@
                                     <a class="btn btn-default btn-xs" title="{intl l='Edit Questions' d='contest.bo.default'}"  href="{url path='/admin/module/Contest/question' game=$ID}">
                                         <i class="glyphicon glyphicon-folder-open"></i>
                                     </a>
-                                    <a class="btn btn-default btn-xs" title="{intl l='Show participant' d='contest.bo.default'}"  href="#">
+                                    <a class="btn btn-default btn-xs" title="{intl l='Show participant' d='contest.bo.default'}"  href="{url path='/admin/module/Contest/participate' game=$ID}">
                                         <i class="glyphicon glyphicon-user"></i>
                                     </a>
                                     {loop name="auth-edit" type="auth" role="ADMIN" resource="admin.module" access="UPDATE" module="Contest"}
