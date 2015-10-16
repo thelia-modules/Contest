@@ -77,7 +77,7 @@ class FrontController extends BaseFrontController
             /* TEST Question */
             $question_correct = [];
             $all_correct = true;
-            $questions = QuestionQuery::create()->filterByGameId($id)->find();
+            $questions = QuestionQuery::create()->filterByVisible(true)->filterByGameId($id)->find();
             if ($questions && count($questions) == count($data)) {
                 /** @var Question $question */
                 foreach ($questions as $question) {
