@@ -7,6 +7,8 @@
 namespace Contest\Controller;
 
 use Contest\Controller\Base\ParticipateController as BaseParticipateController;
+use Contest\Model\Participate;
+use Contest\Model\ParticipateQuery;
 
 /**
  * Class ParticipateController
@@ -14,4 +16,23 @@ use Contest\Controller\Base\ParticipateController as BaseParticipateController;
  */
 class ParticipateController extends BaseParticipateController
 {
+
+    /**
+     * Generate Winner for a game
+     * @param $id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
+    public function generateWinnerAction($id){
+        $participates = ParticipateQuery::create()->filterByWin(true)->filterByGameId($id)->find();
+        if($participates){
+            $winner_index = rand(1,count($participates));
+            /** @var Participate $winner */
+            $winner = $participates[$winner_index];
+            return $this->render("winner",["participate_id",$winner->getId()]);
+        } else {
+            return $this->render("games");
+        }
+
+    }
+
 }

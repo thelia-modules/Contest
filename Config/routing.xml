@@ -90,8 +90,9 @@
     <route id="contest.participate.edit" path="/admin/module/Contest/participate/edit" methods="post">
         <default key="_controller">Contest:Participate:processUpdate</default>
     </route>
-    <route id="contest.participate.delete" path="/admin/module/Contest/participate/delete" methods="post">
-        <default key="_controller">Contest:Participate:delete</default>
+    <route id="contest.participate.winner" path="/admin/module/Contest/participate/winner/{id}" methods="get">
+        <default key="_controller">Contest:Participate:generateWinner</default>
+        <requirement key="id">\d+</requirement>
     </route>
 
 

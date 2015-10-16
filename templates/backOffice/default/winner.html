@@ -1,0 +1,27 @@
+{extends file="admin-layout.tpl"}
+{default_translation_domain domain='contest.bo.default'}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='Winner'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}Contest{/block}
+
+{block name="main-content"}
+    <div class="container">
+        {loop type="participate" name="participate_winner" id=$participate_id limit=1}
+            <h1>{intl l="The winner is"}</h1>
+            <h2>{$EMAIL}</h2>
+            <div class="btn-grp text-center">
+                <a class="btn btn-default"
+                   href="{url path="/admin/module/Contest/participate/winner/{$GAME_ID}"}">{intl l="Regenerate"}</a>
+                <a class="btn btn-primary" href="#">{intl l="Send a mail"}</a>
+            </div>
+        {/loop}
+    </div>
+{/block}
+
