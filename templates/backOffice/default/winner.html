@@ -12,16 +12,20 @@
 {block name="check-module"}Contest{/block}
 
 {block name="main-content"}
-    <div class="container">
-        {loop type="participate" name="participate_winner" id=$participate_id limit=1}
-            <h1>{intl l="The winner is"}</h1>
-            <h2>{$EMAIL}</h2>
-            <div class="btn-grp text-center">
-                <a class="btn btn-default"
-                   href="{url path="/admin/module/Contest/participate/winner/{$GAME_ID}"}">{intl l="Regenerate"}</a>
-                <a class="btn btn-primary" href="#">{intl l="Send a mail"}</a>
-            </div>
-        {/loop}
+    <div id="wrapper" class="container">
+        <div class="general-block-decorator">
+            {loop type="participate" name="participate_winner" id=$participate_id limit=1}
+                <h1>{intl l="The winner is"}</h1>
+                <h2>{$EMAIL}</h2>
+                <div class="btn-grp text-center">
+                    <a class="btn btn-default"
+                       href="{url path="/admin/module/Contest/participate" game=$GAME_ID}">{intl l="Go Back"}</a>
+                    <a class="btn btn-default"
+                       href="{url path="/admin/module/Contest/participate/winner/{$GAME_ID}"}">{intl l="Regenerate"}</a>
+                    <a class="btn btn-primary" href="#">{intl l="Send a mail"}</a>
+                </div>
+            {/loop}
+        </div>
     </div>
 {/block}
 

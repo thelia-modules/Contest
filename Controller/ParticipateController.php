@@ -25,7 +25,7 @@ class ParticipateController extends BaseParticipateController
     public function generateWinnerAction($id){
         $participates = ParticipateQuery::create()->filterByWin(true)->filterByGameId($id)->find();
         if($participates){
-            $winner_index = rand(1,count($participates));
+            $winner_index = rand(0,count($participates)-1);
             /** @var Participate $winner */
             $winner = $participates[$winner_index];
             return $this->render("winner",["participate_id",$winner->getId()]);
