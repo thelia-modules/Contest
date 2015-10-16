@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://thelia.net/schema/dic/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+  <loops>
+    <!-- sample definition
+        <loop name="MySuperLoop" class="Contest\Loop\MySuperLoop" />
+        -->
+    <loop name="game" class="Contest\Loop\Game"/>
+    <loop name="question" class="Contest\Loop\Question"/>
+    <loop name="answer" class="Contest\Loop\Answer"/>
+    <loop name="participate" class="Contest\Loop\Participate"/>
+  </loops>
+  <forms>
+    <!--
+        <form name="MyFormName" class="Contest\Form\MySuperForm" />
+        -->
+    <form name="game.create" class="Contest\Form\GameCreateForm"/>
+    <form name="game.update" class="Contest\Form\GameUpdateForm"/>
+    <form name="question.create" class="Contest\Form\QuestionCreateForm"/>
+    <form name="question.update" class="Contest\Form\QuestionUpdateForm"/>
+    <form name="answer.create" class="Contest\Form\AnswerCreateForm"/>
+    <form name="answer.update" class="Contest\Form\AnswerUpdateForm"/>
+    <form name="participate.create" class="Contest\Form\ParticipateCreateForm"/>
+    <form name="participate.update" class="Contest\Form\ParticipateUpdateForm"/>
+  </forms>
+  <commands>
+    <!--
+        <command class="Contest\Command\MySuperCommand" />
+        -->
+  </commands>
+  <!--
+    <services>
+
+    </services>
+    -->
+  <!--
+    <hooks>
+        <hook id="contest.hook" class="Contest\Hook\MySuperHook" scope="request">
+            <tag name="hook.event_listener" event="main.body.bottom" type="front|back|pdf|email" method="onMainBodyBottom" />
+        </hook>
+    </hooks>
+    -->
+  <!--
+    <exports>
+
+    </exports>
+    -->
+  <!--
+    <imports>
+
+    </imports>
+    -->
+  <services>
+    <service id="action.contest.game_table" class="Contest\Action\GameAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="contest.form.type.game_id" class="Contest\Form\Type\GameIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="action.contest.question_table" class="Contest\Action\QuestionAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="contest.form.type.question_id" class="Contest\Form\Type\QuestionIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="action.contest.answer_table" class="Contest\Action\AnswerAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="contest.form.type.answer_id" class="Contest\Form\Type\AnswerIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="action.contest.participate_table" class="Contest\Action\ParticipateAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="contest.form.type.participate_id" class="Contest\Form\Type\ParticipateIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+  </services>
+</config>

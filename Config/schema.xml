@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="thelia"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../core/vendor/propel/propel/resources/xsd/database.xsd">
+    <!--
+    See propel documentation on http://propelorm.org for all information about schema file
+
+    <table name="product_rel" namespace="Contest\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column defaultValue="0" name="visible" required="true" type="TINYINT" />
+        <column defaultValue="0" name="position" required="true" type="INTEGER" />
+        <column name="title" size="255" type="VARCHAR" />
+        <column name="description" type="CLOB" />
+        <column name="chapo" type="LONGVARCHAR" />
+        <column name="postscriptum" type="LONGVARCHAR" />
+        <foreign-key foreignTable="product" name="fk_product_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="product_id" />
+        </foreign-key>
+        <behavior name="timestampable" />
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description, chapo, postscriptum" />
+        </behavior>
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true" />
+            <parameter name="log_created_by" value="true" />
+        </behavior>
+    </table>
+    -->
+
+    <table name="game" namespace="Contest\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column defaultValue="0" name="visible" required="true" type="TINYINT"/>
+        <column name="title" size="255" type="VARCHAR"/>
+        <column name="description" type="CLOB"/>
+        <behavior name="timestampable"/>
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description"/>
+        </behavior>
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true"/>
+            <parameter name="log_created_by" value="true"/>
+        </behavior>
+    </table>
+
+    <table name="question" namespace="Contest\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column defaultValue="0" name="visible" required="true" type="TINYINT"/>
+        <column name="title" size="255" type="VARCHAR"/>
+        <column name="description" type="CLOB"/>
+
+        <column name="game_id" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="game" name="fk_game_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="game_id"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description"/>
+        </behavior>
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true"/>
+            <parameter name="log_created_by" value="true"/>
+        </behavior>
+    </table>
+
+    <table name="answer" namespace="Contest\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column defaultValue="0" name="visible" required="true" type="TINYINT"/>
+        <column defaultValue="0" name="correct" required="true" type="TINYINT"/>
+        <column name="title" size="255" type="VARCHAR"/>
+        <column name="description" type="CLOB"/>
+
+        <column name="question_id" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="question" name="fk_question_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="question_id"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description"/>
+        </behavior>
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true"/>
+            <parameter name="log_created_by" value="true"/>
+        </behavior>
+    </table>
+
+    <table name="participate" namespace="Contest\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="email" required="true" size="255" type="VARCHAR"/>
+        <column defaultValue="0" name="win" required="true" type="TINYINT"/>
+
+        <column name="game_id" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="game" name="fk_game_participate_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="game_id"/>
+        </foreign-key>
+
+        <column name="customer_id" type="INTEGER"/>
+        <foreign-key foreignTable="customer" name="fk_game_customer_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="customer_id"/>
+        </foreign-key>
+    </table>
+
+    <external-schema filename="local/config/schema.xml" referenceOnly="true"/>
+</database>
