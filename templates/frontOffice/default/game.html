@@ -24,42 +24,90 @@
     {if $game_id}
         <div class="main">
             {loop name="game.details" type="game" id=$game_id limit=1}
-            <article id="game" class="col-main" role="main">
-                <h1 id="main-label" class="page-header">{$TITLE}</h1>
-                {if $DESCRIPTION}
-                    <div class="description">
-                        {$DESCRIPTION nofilter}
-                    </div>
-                {/if}
-                <ul  class="list-unstyled">
-                    {loop type="question" name="game.question" game_id=$ID}
-                        <li>
-                            <article id="question-{$ID}" class="question">
-                                <h2>{$TITLE}</h2>
-                                {if $DESCRIPTION}
-                                    <div class="little-description">
-                                        {$DESCRIPTION nofilter}
-                                    </div>
-                                {/if}
-                                <ul class="list-inline">
-                                    {loop type="answer" name="question.answer" question_id=$ID}
-                                        <li>
-                                            <div class="form-group">
-                                                <label>{$TITLE}</label>
-                                                <input type="radio" class="radio" name="question-{$QUESTION_ID}" value="{$ID}"/>
-                                            </div>
-                                        </li>
-                                    {/loop}
-                                </ul>
-                            </article>
-                        </li>
+                <article id="game" class="col-main" role="main">
+                    <h1 id="main-label" class="page-header">{$TITLE}</h1>
+                    {if $DESCRIPTION}
+                        <div class="description">
+                            {$DESCRIPTION nofilter}
+                        </div>
+                    {/if}
+                    <ul class="list-unstyled">
+                        {loop type="question" name="game.question" game_id=$ID}
+                            <li>
+                                <article id="question-{$ID}" class="question" data-id="{$ID}">
+                                    <h2>{$TITLE}</h2>
+                                    {if $DESCRIPTION}
+                                        <div class="little-description">
+                                            {$DESCRIPTION nofilter}
+                                        </div>
+                                    {/if}
+                                    <ul class="list-inline">
+                                        {loop type="answer" name="question.answer" question_id=$ID}
+                                            <li>
+                                                <div class="form-group">
+                                                    <label>{$TITLE}</label>
+                                                    <input type="radio" class="radio" name="question-{$QUESTION_ID}"
+                                                           value="{$ID}"/>
+                                                </div>
+                                            </li>
+                                        {/loop}
+                                    </ul>
+                                </article>
+                            </li>
+                        {/loop}
+                    </ul>
+
+                    {loop type="auth" name="customer_test" role="CUSTOMER"}
+                        <input id="cutomer_id" type="text" class="hidden" value="{$ID}" />
                     {/loop}
-                </ul>
-                <div class="btn-group text-center">
-                    <button id="#validate-game" class="btn btn-primary">{intl l="Validate"}</button>
-                </div>
-            </article>
+                    {elseloop rel="customer_test"}
+                        <input id="email" type="email" placeholder="email" class="form-control" />
+                    {/elseloop}
+                    <div class="btn-group text-center">
+                        <button id="validate-game" class="btn btn-primary">{intl l="Validate"}</button>
+                    </div>
+                </article>
             {/loop}
         </div>
     {/if}
+{/block}
+
+{block name="javascript-initialization"}
+    <script>
+        (function ($) {
+            $("#validate-game").on("click", function () {
+                var data = {
+                    questions : {}
+                };
+                var game_is_correct = true;
+                $(".question").each(function () {
+                    var $this = $(this);
+                    var value = $this.find('input:checked').val();
+                    if (value) {
+                        data.questions[$this.attr("data-id")] = value;
+                    }else {
+                        game_is_correct = false;
+                    }
+                });
+
+                var $mail = $("#email");
+                if($mail.length > 0){
+                    data["email"] = $mail.val();
+                }
+                var $customer = $("customer_id");
+                if($customer.length > 0){
+                    data["customer_id"] = $customer.val();
+                }
+
+                if(game_is_correct){
+                    $.post("/contest/game/{$game_id}",data,function(data){
+                        alert(data.message);
+                    }).fail(function(data) {
+                        alert(data.message);
+                    });
+                }
+
+            });
+        })(jQuery);
+    </script>
 {/block}

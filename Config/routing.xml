@@ -99,5 +99,9 @@
         <default key="_controller">Contest:Front:game</default>
         <requirement key="id">\d+</requirement>
     </route>
+    <route id="contest.front.game.process" path="contest/game/{id}" methods="post">
+        <default key="_controller">Contest:Front:processGame</default>
+        <requirement key="id">\d+</requirement>
+    </route>
 
 </routes>
