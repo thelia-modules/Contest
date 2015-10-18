@@ -47,7 +47,7 @@
                                                 <div class="form-group">
                                                     <label>{$TITLE}</label>
                                                     <input type="radio" class="radio" name="question-{$QUESTION_ID}"
-                                                           value="{$ID}"/>
+                                                           value="{$ID}" require/>
                                                 </div>
                                             </li>
                                         {/loop}
@@ -61,7 +61,7 @@
                         <input id="customer_id" type="text" class="hidden" value="{customer attr="id"}" />
                     {/loop}
                     {elseloop rel="customer_test"}
-                        <input id="email" type="email" placeholder="email" class="form-control" />
+                        <input id="email" type="email" placeholder="email" class="form-control"  require/>
                     {/elseloop}
                     <div class="btn-group text-center">
                         <button id="validate-game" class="btn btn-primary">{intl l="Validate"}</button>
@@ -87,12 +87,18 @@
                         data.questions[$this.attr("data-id")] = value;
                     }else {
                         game_is_correct = false;
+                        $this.addClass("has-error");
                     }
                 });
 
                 var $mail = $("#email");
                 if($mail.length > 0){
-                    data["email"] = $mail.val();
+                    if($mail.val()){
+                        data["email"] = $mail.val();
+                    }else{
+                        $mail.addClass("has-error");
+                    }
+
                 }
                 var $customer = $("#customer_id");
                 if($customer.length > 0){
@@ -100,7 +106,7 @@
                 }
 
                 if(game_is_correct){
-                    $.post("/contest/game/{$game_id}",data,function(data){
+                    $.post("{url path="/contest/game/{$game_id}"}",data,function(data){
                         if(data.url){
                             window.location = data.url;
                         }
