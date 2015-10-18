@@ -19,6 +19,15 @@
     {/loop}
 {/block}
 
+{block name="meta"}
+{loop name="game.meta" type="game" id=$game_id limit=1}
+{if !$VISIBLE}
+<meta name="robots" content="noindex">
+<meta name="googlebot" content="noindex">
+{/if}
+{/loop}
+{/block}
+
 {* Content *}
 {block name="main-content"}
     {if $game_id}
