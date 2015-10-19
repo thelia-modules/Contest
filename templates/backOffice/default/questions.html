@@ -26,7 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="question-table">
                     <caption class="clearfix">
-                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Question"}
+                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Question" d='contest.bo.default'}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -187,7 +187,7 @@
 
                 {form_error form=$form field="visible"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Question visible'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Question visible' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -199,7 +199,7 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Question title'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Question title' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="description"}
@@ -211,7 +211,7 @@
 
                 {form_error form=$form field="description"}{$message}{/form_error}
 
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Question description'}">{$DESCRIPTION}</textarea>
+                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Question description' d='contest.bo.default'}">{$DESCRIPTION}</textarea>
             </div>
         {/form_field}
         {form_field form=$form field="game_id"}
@@ -225,7 +225,7 @@
                     </label>
 
                     {form_error form=$form field="game_id"}{$message}{/form_error}
-                    <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Question game_id'}" />
+                    <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Question game_id' d='contest.bo.default'}" />
                 {/if}
 
             </div>

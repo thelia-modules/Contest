@@ -25,14 +25,16 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="participate-table">
                     <caption class="clearfix">
-                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Participate"}
+                        {if $game_id}{loop type="game" name="game-title" id=$game_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Participate" d='contest.bo.default'}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
+                            <!--
                             <div class="pull-right">
                                 <a class="btn btn-default btn-primary" title="{intl l='Create a new Participate entry' d='contest.bo.default'}" data-target="#participate-create" data-toggle="modal">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                 </a>
                             </div>
+                            -->
                         {/loop}
                         {if $game_id}
                             <div class="pull-right">
@@ -41,7 +43,7 @@
                                 </a>
                             </div>
                             <div class="pull-right">
-                                <a class="btn btn-default btn-primary" href="{url path="/admin/module/Contest/participate/winner/{$game_id}"}">{intl l="Generate Winner"}</a>
+                                <a class="btn btn-default btn-primary" href="{url path="/admin/module/Contest/participate/winner/{$game_id}"}">{intl l="Generate Winner" d='contest.bo.default'}</a>
                             </div>
                         {/if}
 
@@ -174,7 +176,7 @@
 
                 {form_error form=$form field="email"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL}" placeholder="{intl l='The Participate email'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL}" placeholder="{intl l='The Participate email' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="win"}
@@ -186,7 +188,7 @@
 
                 {form_error form=$form field="win"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $WIN}checked{/if} placeholder="{intl l='The Participate win'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $WIN}checked{/if} placeholder="{intl l='The Participate win' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="game_id"}
@@ -198,7 +200,7 @@
 
                 {form_error form=$form field="game_id"}{$message}{/form_error}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Participate game_id'}" />
+                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Participate game_id' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="customer_id"}
@@ -210,7 +212,7 @@
 
                 {form_error form=$form field="customer_id"}{$message}{/form_error}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CUSTOMER_ID}" placeholder="{intl l='The Participate customer_id'}" />
+                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CUSTOMER_ID}" placeholder="{intl l='The Participate customer_id' d='contest.bo.default'}" />
             </div>
         {/form_field}
     {/capture}

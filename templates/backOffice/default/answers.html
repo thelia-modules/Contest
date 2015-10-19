@@ -26,7 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="answer-table">
                     <caption class="clearfix">
-                        {if $question_id}{loop type="question" name="question-title" id=$question_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Answer"}
+                        {if $question_id}{loop type="question" name="question-title" id=$question_id limit=1}{$TITLE} - {/loop}{/if}{intl l="Answer" d='contest.bo.default'}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -214,7 +214,7 @@
                 {form_error form=$form field="visible"}{$message}{/form_error}
 
                 <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if}
-                       placeholder="{intl l='The Answer visible'}"/>
+                       placeholder="{intl l='The Answer visible' d='contest.bo.default'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="correct"}
@@ -227,7 +227,7 @@
                 {form_error form=$form field="correct"}{$message}{/form_error}
 
                 <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $CORRECT}checked{/if}
-                       placeholder="{intl l='The Answer correct'}"/>
+                       placeholder="{intl l='The Answer correct' d='contest.bo.default'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -240,7 +240,7 @@
                 {form_error form=$form field="title"}{$message}{/form_error}
 
                 <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}"
-                       placeholder="{intl l='The Answer title'}"/>
+                       placeholder="{intl l='The Answer title' d='contest.bo.default'}"/>
             </div>
         {/form_field}
         {form_field form=$form field="description"}
@@ -253,7 +253,7 @@
                 {form_error form=$form field="description"}{$message}{/form_error}
 
                 <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
-                          placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
+                          placeholder="{intl l='The Answer description' d='contest.bo.default'}">{$DESCRIPTION}</textarea>
             </div>
         {/form_field}
         {form_field form=$form field="question_id"}
@@ -268,7 +268,7 @@
                     </label>
                     {form_error form=$form field="question_id"}{$message}{/form_error}
                     <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}"
-                           value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id'}"/>
+                           value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id' d='contest.bo.default'}"/>
                 {/if}</div>
         {/form_field}
     {/capture}

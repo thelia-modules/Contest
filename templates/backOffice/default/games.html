@@ -25,7 +25,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="game-table">
                     <caption class="clearfix">
-                        {intl l="Game"}
+                        {intl l="Game" d='contest.bo.default'}
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="Contest"}
                             <div class="pull-right">
@@ -170,7 +170,7 @@
 
                 {form_error form=$form field="visible"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Game visible'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Game visible' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -182,7 +182,7 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Game title'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Game title' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="description"}
@@ -194,7 +194,7 @@
 
                 {form_error form=$form field="description"}{$message}{/form_error}
 
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Game description'}">{$DESCRIPTION}</textarea>
+                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Game description' d='contest.bo.default'}">{$DESCRIPTION}</textarea>
             </div>
         {/form_field}
     {/capture}
