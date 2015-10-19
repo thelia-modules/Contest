@@ -1,6 +1,8 @@
 # Contest
 
-This module allow you to create basic QCM contest
+This module allow you to create basic QCM contest.
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Soldras/Contest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Soldras/Contest/?branch=master)
 
 ## Usage
 
@@ -19,9 +21,94 @@ You can generate a random winner too.
 
 ### Game
 
+#### Input arguments
+
+|Argument           |Description                                                                                    |
+|---                |---                                                                                            |
+|**id**             | filter by id                                                                                  |
+|**visible**        | filter by visible                                                                             |
+|**title**          | filter by title                                                                               |
+|**order**          | order result by "id","id-reverse","visible","visible-reverse","title","title-reverse", "description","description-reverse" |
+
+#### Output Arguments
+
+
+|Variable           |Description                                                |
+|---                |---                                                        |
+|**ID**             | id                                                        |
+|**VISIBLE**        | (boolean) visible                                         |
+|**TITLE**          | Game's title                                              |
+|**DESCRIPTION**    | Game's description                                        |
+
 ### Question
+
+#### Input arguments
+
+|Argument           |Description                                                                                    |
+|---                |---                                                                                            |
+|**id**             | filter by id                                                                                  |
+|**visible**        | filter by visible                                                                             |
+|**title**          | filter by title                                                                               |
+|**game_id**        | filter by game id                                                                               |
+|**order**          | order result by "id","id-reverse","visible","visible-reverse","title","title-reverse", "description","description-reverse", "game_id","game_id-reverse" |
+
+#### Output Arguments
+
+
+|Variable           |Description                                                |
+|---                |---                                                        |
+|**ID**             | id                                                        |
+|**VISIBLE**        | (boolean) visible                                         |
+|**TITLE**          | Question's title                                          |
+|**DESCRIPTION**    | Question's description                                    |
+|**GAME_ID**        | Game's id                                                 |
 
 ### Answer
 
+#### Input arguments
+
+|Argument           |Description                                                                                    |
+|---                |---                                                                                            |
+|**id**             | filter by id                                                                                  |
+|**visible**        | filter by visible                                                                             |
+|**correct**        | filter by correct                                                                             |
+|**title**          | filter by title                                                                               |
+|**question_id**    | filter by question id                                                                         |
+|**order**          | order result by "id","id-reverse","visible","visible-reverse","title","title-reverse", "description","description-reverse", "question_id","question_id-reverse","correct","correct-reverse" |
+
+#### Output Arguments
+
+
+|Variable           |Description                                                |
+|---                |---                                                        |
+|**ID**             | id                                                        |
+|**VISIBLE**        | (boolean) visible                                         |
+|**CORRECT**        | (boolean) correct                                         |
+|**TITLE**          | Answer's title                                            |
+|**DESCRIPTION**    | Answer's description                                      |
+|**QUESTION_ID**    | Question's id                                             |
+
 ### Participate
+
+#### Input arguments
+
+|Argument           |Description                                                                                    |
+|---                |---                                                                                            |
+|**id**             | filter by id                                                                                  |
+|**email**          | filter by email                                                                               |
+|**win**            | filter by victory                                                                             |
+|**game_id**        | filter by game_id                                                                             |
+|**customer_id**    | filter by customer_id                                                                         |
+|**order**          | order result by "id","id-reverse","email","email-reverse","victory","victory-reverse", "game_id","game_id-reverse", "customer_id","customer_id-reverse" |
+
+#### Output Arguments
+
+
+|Variable           |Description                                                |
+|---                |---                                                        |
+|**ID**             | id                                                        |
+|**EMAIL**          | email                                                     |
+|**WIN**            | (boolean) victory                                         |
+|**GAME_ID**        | Game's id                                                 |
+|**CUSTOMER_ID**    | Customer's id                                             |
 
