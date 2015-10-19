@@ -1,0 +1,10 @@
+{default_translation_domain domain='email.default'}
+{intl l="Hello,"}
+
+{intl l="You have participate to a contest at %store_name" store_name={config key="store_name"} d="contest.email.default"}.
+
+{intl l='We have the pleasure to inform you to win' d="contest.email.default"}.
+
+{intl l='Kind regards'},
+{intl l="The %store team." store={config key="store_name"}}
+

@@ -94,6 +94,11 @@
         <default key="_controller">Contest:Participate:generateWinner</default>
         <requirement key="id">\d+</requirement>
     </route>
+    <route id="contest.participate.winner.mail" path="/admin/module/Contest/participate/winner/mail/{game_id}/{id}" methods="get">
+        <default key="_controller">Contest:Participate:processMailWinner</default>
+        <requirement key="game_id">\d+</requirement>
+        <requirement key="id">\d+</requirement>
+    </route>
 
 
     <route id="contest.front.game" path="contest/game/{id}" methods="get">

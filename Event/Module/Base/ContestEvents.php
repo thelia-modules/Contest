@@ -28,4 +28,5 @@ class ContestEvents
     const PARTICIPATE_CREATE = "action.participate.create";
     const PARTICIPATE_UPDATE = "action.participate.update";
     const PARTICIPATE_DELETE = "action.participate.delete";
+    const SEND_MAIL_WIN = "action.participate.mail.win.send";
 }

@@ -10,6 +10,11 @@ use Contest\Model\AnswerQuery;
 use Contest\Model\Base\GameQuery;
 use Contest\Model\ParticipateQuery;
 use Contest\Model\QuestionQuery;
+use Thelia\Core\Translation\Translator;
+use Thelia\Model\Lang;
+use Thelia\Model\LangQuery;
+use Thelia\Model\Message;
+use Thelia\Model\MessageQuery;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
@@ -22,6 +27,19 @@ class Contest extends BaseModule
 {
     const MESSAGE_DOMAIN = "contest";
     const ROUTER = "router.contest";
+    const MESSAGE_WIN = "contest_confirm_win";
+
+    /** @var Translator $translator */
+    protected $translator;
+
+    protected function trans($id, $locale, $parameters = [])
+    {
+        if ($this->translator === null) {
+            $this->translator = Translator::getInstance();
+        }
+
+        return $this->translator->trans($id, $parameters, self::MESSAGE_DOMAIN, $locale);
+    }
 
     public function postActivation(ConnectionInterface $con = null)
     {
@@ -34,6 +52,37 @@ class Contest extends BaseModule
         } catch (\Exception $e) {
             $database = new Database($con);
             $database->insertSql(null, [__DIR__ . "/Config/create.sql", __DIR__ . "/Config/insert.sql"]);
+        }
+
+        $languages = LangQuery::create()->find();
+
+
+        if (null === MessageQuery::create()->findOneByName(self::MESSAGE_WIN)) {
+            $message = new Message();
+            $message
+                ->setName(self::MESSAGE_WIN)
+                ->setHtmlLayoutFileName('')
+                ->setHtmlTemplateFileName(self::MESSAGE_WIN.'.html')
+                ->setTextLayoutFileName('')
+                ->setTextTemplateFileName(self::MESSAGE_WIN.'.txt')
+            ;
+
+            foreach ($languages as $language) {
+                /** @var Lang $language */
+                $locale = $language->getLocale();
+
+                $message->setLocale($locale);
+
+                $message->setTitle(
+                    $this->trans('You win', $locale)
+                );
+
+                $message->setSubject(
+                    $this->trans('You win', $locale)
+                );
+            }
+
+            $message->save();
         }
     }
 }
