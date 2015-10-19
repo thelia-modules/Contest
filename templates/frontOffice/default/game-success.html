@@ -26,10 +26,10 @@
     {loop name="game.details" type="game" id=$game_id limit=1}
     <article id="game" class="col-main" role="main">
     <h1 id="main-label" class="page-header">{$TITLE}</h1>
-        <h2>{intl l="Success"}</h2>
-        <p>{intl l="You correctly anwser of questions"}</p>
-        <p>{intl l="You receivle shortlyy a message if you win !"}</p>
-        <p>{intl l="See you"}</p>
+        <h2>{intl l="Success" d='contest.fo.default'}</h2>
+        <p>{intl l="You correctly anwser of questions" d='contest.fo.default'}</p>
+        <p>{intl l="You receivle shortlyy a message if you win !" d='contest.fo.default'}</p>
+        <p>{intl l="See you" d='contest.fo.default'}</p>
         <a class="btn btn-primary center-block" href="{url path="/"}">{intl l="Go home"}</a>
     </article>
         {/loop}

@@ -5,36 +5,41 @@
 
 {* Page Title *}
 {block name='no-return-functions' append}
-  {loop name="game.seo.title" type="game" id=$game_id limit="1"}
-  {$page_title = {$TITLE}}
-  {/loop}
+    {loop name="game.seo.title" type="game" id=$game_id limit="1"}
+    {$page_title = {$TITLE}}
+    {/loop}
 {/block}
 
 
 {* Breadcrumb *}
 {block name='no-return-functions' append}
-  {$breadcrumbs = []}
-  {loop type="game" name="game_breadcrumb" id=$game_id limit="1"}
-  {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> "#"]}
-  {/loop}
+    {$breadcrumbs = []}
+    {loop type="game" name="game_breadcrumb" id=$game_id limit="1"}
+    {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> "#"]}
+    {/loop}
 {/block}
 
 {* Content *}
 {block name="main-content"}
-  {if $game_id}
-    <div class="main">
-      {loop name="game.details" type="game" id=$game_id limit=1}
-      <article id="game" class="col-main" role="main">
-        <h1 id="main-label" class="page-header">{$TITLE}</h1>
-        <h2>{intl l="Fail"}</h2>
-        <p>{intl l="You have too mutch error try another time."}</p>
-        <p>{intl l="See you"}</p>
-        <div class="btn-group text-center">
-          <a class="btn btn-default" href="{url path="/contest/game/{$game_id}"}">{intl l="Go Back"}</a>
-          <a class="btn btn-primary" href="{url path="/"}">{intl l="Go home"}</a>
+    {if $game_id}
+        <div class="main">
+            {loop name="game.details" type="game" id=$game_id limit=1}
+                <article id="game" class="col-main" role="main">
+                    <h1 id="main-label" class="page-header">{$TITLE}</h1>
+
+                    <h2>{intl l="Fail" d='contest.fo.default'}</h2>
+
+                    <p>{intl l="You have too mutch error try another time." d='contest.fo.default'}</p>
+
+                    <p>{intl l="See you" d='contest.fo.default'}</p>
+
+                    <div class="btn-group text-center">
+                        <a class="btn btn-default"
+                           href="{url path="/contest/game/{$game_id}"}">{intl l="Go Back" d='contest.fo.default'}</a>
+                        <a class="btn btn-primary" href="{url path="/"}">{intl l="Go home"}</a>
+                    </div>
+                </article>
+            {/loop}
         </div>
-      </article>
-      {/loop}
-    </div>
-  {/if}
+    {/if}
 {/block}
