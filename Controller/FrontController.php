@@ -97,9 +97,9 @@ class FrontController extends BaseFrontController
             /* TODO : Voir les conditions de victoire */
             $event->setWin($all_correct);
             if ($all_correct) {
-                $retour["url"] = $this->getRouteFromRouter("router.contest","contest.front.game.success",["id"=>$id]);
+                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER,"contest.front.game.success",["id"=>$id]);
             } else {
-                $retour["url"] = $this->getRouteFromRouter("router.contest","contest.front.game.fail",["id"=>$id]);
+                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER,"contest.front.game.fail",["id"=>$id]);
             }
 
             /* Create participate */
