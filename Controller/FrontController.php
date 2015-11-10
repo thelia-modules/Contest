@@ -43,6 +43,16 @@ class FrontController extends BaseFrontController
             return $this->generateRedirectFromRoute("customer.login.view");
         }
 
+        if (null != $customer = $this->getSecurityContext()->getCustomerUser()) {
+            if (!$this->testMaxParticipation($customer->getUsername(), $id)) {
+                return $this->render("game-max-participate", [
+                    "game_id" => $id,
+                    "email" => $customer->getUsername(),
+                    "MAX_PARTICIPATE_OPTION" => Contest::getConfigValue(Contest::MAX_PARTICIPATE_OPTION)
+                ]);
+            }
+        }
+
         return $this->render("game", ["game_id" => $id]);
     }
 
@@ -78,6 +88,17 @@ class FrontController extends BaseFrontController
             if ($email) {
                 $event->setEmail($email);
             }
+        }
+
+        if (!$this->testMaxParticipation($event->getEmail(), $id)) {
+            $retour["html"] = $this->renderRaw("include/game-max-participate-content", [
+                "game_id" => $id,
+                "email" => $event->getEmail(),
+                "MAX_PARTICIPATE_OPTION" => Contest::getConfigValue(Contest::MAX_PARTICIPATE_OPTION)
+            ]);
+            $retour["code"] = "9999";
+
+            return JsonResponse::create($retour);
         }
 
         try {
@@ -117,7 +138,8 @@ class FrontController extends BaseFrontController
                         ["id" => $id]);
                 }
             } else {
-                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.end", ["id" => $id, "part" => $event->getParticipate()->getId()]);
+                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.end",
+                    ["id" => $id, "part" => $event->getParticipate()->getId()]);
             }
 
             $retour["message"] = $this->getTranslator()->trans("Success", [], Contest::MESSAGE_DOMAIN);
@@ -156,7 +178,7 @@ class FrontController extends BaseFrontController
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
      */
-    public function endGameAction($id,$part)
+    public function endGameAction($id, $part)
     {
         $param = [
             "game_id" => $id,
@@ -168,7 +190,8 @@ class FrontController extends BaseFrontController
         return $this->render("game-end", $param);
     }
 
-    public function sendInvitationAction($id,$part){
+    public function sendInvitationAction($id, $part)
+    {
         $resp = array(
             "message" => ""
         );
@@ -178,10 +201,10 @@ class FrontController extends BaseFrontController
             $event->setGame(GameQuery::create()->findOneById($id));
             $event->setParticipate(ParticipateQuery::create()->findOneById($part));
             $friends = $this->getRequest()->get("friends");
-            if(is_array($friends)){
+            if (is_array($friends)) {
                 $event->setFriends($friends);
             }
-            $this->dispatch(MailEvents::SEND_FRIEND,$event);
+            $this->dispatch(MailEvents::SEND_FRIEND, $event);
             $resp["message"] = $this->getTranslator()->trans("Send invitation", [], Contest::MESSAGE_DOMAIN);
         } catch (\Exception $e) {
             $resp["message"] = $e->getMessage();
@@ -207,5 +230,10 @@ class FrontController extends BaseFrontController
 
         return true;
 
+    }
+
+    protected function testMaxParticipation($email, $game_id)
+    {
+        return (count(ParticipateQuery::create()->filterByEmail($email)->filterByGameId($game_id)->find()) < Contest::getConfigValue(Contest::MAX_PARTICIPATE_OPTION)) ? true : false;
     }
 }

@@ -1,0 +1,13 @@
+{loop name="game.details" type="game" id=$game_id limit=1}
+    <article id="game" class="col-main" role="main">
+        <h1 id="main-label" class="page-header">{$TITLE}</h1>
+
+        <h2>{intl l="You already participate to this game with the email : %email" email=$email d='contest.fo.default'}</h2>
+
+        <p>{intl l="Max participation is %max" max=$MAX_PARTICIPATE_OPTION d='contest.fo.default'}</p>
+
+        <p>{intl l="See you" d='contest.fo.default'}</p>
+        <a class="btn btn-primary center-block" href="{url path="/"}">{intl l="Go home"}</a>
+    </article>
+{/loop}
+

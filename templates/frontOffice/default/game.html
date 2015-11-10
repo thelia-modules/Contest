@@ -119,6 +119,9 @@
                         if(data.url){
                             window.location = data.url;
                         }
+                        if(data.code=="9999"){
+                            $(".main").html(data.html);
+                        }
                     }).fail(function(data) {
                     });
                 }

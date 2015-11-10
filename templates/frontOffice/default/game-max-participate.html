@@ -1,0 +1,29 @@
+{extends file="layout.tpl"}
+
+{* Body Class *}
+{block name="body-class"}page-game{/block}
+
+{* Page Title *}
+{block name='no-return-functions' append}
+    {loop name="game.seo.title" type="game" id=$game_id limit="1"}
+    {$page_title = {$TITLE}}
+    {/loop}
+{/block}
+
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = []}
+    {loop type="game" name="game_breadcrumb" id=$game_id limit="1"}
+    {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> "#"]}
+    {/loop}
+{/block}
+
+{* Content *}
+{block name="main-content"}
+    {if $game_id}
+        <div class="main">
+            {include file="include/game-max-participate-content.html"}
+        </div>
+    {/if}
+{/block}
