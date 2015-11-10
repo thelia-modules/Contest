@@ -16,6 +16,9 @@ namespace Contest\EventListeners;
 use Contest\Contest;
 use Contest\Event\MailEvent;
 use Contest\Event\MailEvents;
+use Contest\Event\MailFriendEvent;
+use Contest\Model\Game;
+use Contest\Model\Participate;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Action\BaseAction;
 use Thelia\Core\Template\ParserInterface;
@@ -58,7 +61,8 @@ class MailListener extends BaseAction implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            MailEvents::SEND => ["sendWin", 128]
+            MailEvents::SEND => ["sendWin", 128],
+            MailEvents::SEND_FRIEND => ["sendFriend", 128]
         );
     }
 
@@ -87,15 +91,14 @@ class MailListener extends BaseAction implements EventSubscriberInterface
             $message
                 ->setLocale($locale);
 
-            $name= "";
-            if($customer = $participate->getCustomer()){
-                $name = $customer->getFirstname()." ".$customer->getLastname();
+            $name = "";
+            if ($customer = $participate->getCustomer()) {
+                $name = $customer->getFirstname() . " " . $customer->getLastname();
             }
 
             $instance = \Swift_Message::newInstance()
                 ->addTo($email, $name)
-                ->addFrom($contact_email, ConfigQuery::read('store_name'))
-            ;
+                ->addFrom($contact_email, ConfigQuery::read('store_name'));
 
             // Build subject and body
             $message->buildMessage($this->parser, $instance);
@@ -103,5 +106,26 @@ class MailListener extends BaseAction implements EventSubscriberInterface
             $this->getMailer()->send($instance);
         }
 
+    }
+
+    public function sendFriend(MailFriendEvent $event)
+    {
+        /** @var Game $game */ /** @var  Participate $participate */
+        if ($game = $event->getGame() && $participate = $event->getParticipate()) {
+            if ($contact_email = ConfigQuery::read('store_email', false)) {
+                $name = $participate->getEmail();
+                if($customer = $participate->getCustomer()){
+                    $name = $customer->getFirstname() ." ".$customer->getLastname();
+                }
+                $param = [
+                    "NAME" => $name,
+                    "GAME_ID" => $game->getId()
+                ];
+
+                foreach ($event->getFriends() as $email_friend) {
+                    $this->mailer->sendEmailMessage(Contest::MESSAGE_FRIEND, $contact_email, $email_friend, $param);
+                }
+            }
+        }
     }
 }

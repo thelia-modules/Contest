@@ -12,14 +12,49 @@
 /*************************************************************************************/
 
 namespace Contest\Event;
-use Contest\Event\Base\MailEvents as BaseMailEvents;
-use Contest\Event\Module\ContestEvents;
+
+use Contest\Event\Base\MailEvent;
 
 /**
- * Class MailEvents
- * @package Event
+ * Class MailFriendEvent
+ * @package Contest\Event
  */
-class MailEvents extends BaseMailEvents
+class MailFriendEvent extends MailEvent
 {
-    const SEND_FRIEND = ContestEvents::SEND_MAIL_WIN;
+    protected $friends;
+
+    /**
+     * @return mixed
+     */
+    public function getFriends()
+    {
+        return $this->friends;
+    }
+
+    /**
+     * @param mixed $friends
+     */
+    public function setFriends($friends)
+    {
+        if (is_array($friends)) {
+            $this->friends = $friends;
+        } else {
+            if (!in_array($friends, $this->friends)) {
+                $this->friends[] = $friends;
+            }
+        }
+
+        return $this->friends;
+    }
+
+    public function setFriend($friend)
+    {
+        if (!in_array($friend, $this->friends)) {
+            $this->friends[] = $friend;
+        }
+
+        return $this->friends;
+    }
+
+
 }

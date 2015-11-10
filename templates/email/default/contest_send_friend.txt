@@ -1,0 +1,8 @@
+{intl l="Hello,"}
+
+{intl l="%name invited you to a contest at %store_name" store_name={config key="store_name"} name=$NAME d="contest.email.default"}.
+{intl l='Follow the %link to participate' link={url path="contest/game/$GAME_ID"}" d="contest.email.default"}.
+
+{intl l='Kind regards'},
+{intl l="The %store team." store={config key="store_name"}}
+

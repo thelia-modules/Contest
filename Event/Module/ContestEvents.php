@@ -15,4 +15,5 @@ use Contest\Event\Module\Base\ContestEvents as BaseContestEvents;
  */
 class ContestEvents extends BaseContestEvents
 {
+    const SEND_MAIL_FRIEND = "action.participate.mail.friend.send";
 }

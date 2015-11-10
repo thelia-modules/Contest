@@ -13,7 +13,6 @@ use Contest\Model\GameQuery;
 use Contest\Model\Participate;
 use Contest\Model\ParticipateQuery;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Thelia\Log\Tlog;
 
 /**
  * Class ParticipateController
@@ -55,7 +54,7 @@ class ParticipateController extends BaseParticipateController
             try {
                 $this->dispatch(MailEvents::SEND, $event);
             } catch (\Exception $e) {
-                Tlog::getInstance()->error($e->getMessage());
+
             }
 
             return $this->render("winner", ["participate_id", $id]);

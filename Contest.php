@@ -28,6 +28,7 @@ class Contest extends BaseModule
     const MESSAGE_DOMAIN = "contest";
     const ROUTER = "router.contest";
     const MESSAGE_WIN = "contest_confirm_win";
+    const MESSAGE_FRIEND = "contest_send_friend";
 
     /** @var Translator $translator */
     protected $translator;
@@ -54,17 +55,23 @@ class Contest extends BaseModule
             $database->insertSql(null, [__DIR__ . "/Config/create.sql", __DIR__ . "/Config/insert.sql"]);
         }
 
+
+        $this->declareMessage(self::MESSAGE_WIN,'You win','You win');
+        $this->declareMessage(self::MESSAGE_FRIEND,'You get invited to a game','You get invited to a game');
+
+    }
+
+    protected function declareMessage($name,$subject,$title){
         $languages = LangQuery::create()->find();
 
-
-        if (null === MessageQuery::create()->findOneByName(self::MESSAGE_WIN)) {
+        if (null === MessageQuery::create()->findOneByName($name)) {
             $message = new Message();
             $message
-                ->setName(self::MESSAGE_WIN)
+                ->setName($name)
                 ->setHtmlLayoutFileName('')
-                ->setHtmlTemplateFileName(self::MESSAGE_WIN.'.html')
+                ->setHtmlTemplateFileName($name.'.html')
                 ->setTextLayoutFileName('')
-                ->setTextTemplateFileName(self::MESSAGE_WIN.'.txt')
+                ->setTextTemplateFileName($name.'.txt')
             ;
 
             foreach ($languages as $language) {
@@ -74,11 +81,11 @@ class Contest extends BaseModule
                 $message->setLocale($locale);
 
                 $message->setTitle(
-                    $this->trans('You win', $locale)
+                    $this->trans($title, $locale)
                 );
 
                 $message->setSubject(
-                    $this->trans('You win', $locale)
+                    $this->trans($subject, $locale)
                 );
             }
 
