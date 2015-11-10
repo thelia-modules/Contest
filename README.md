@@ -17,6 +17,28 @@ You have to the possibility to add a game wihout indexing it, just uncheck visib
 On list game view you can click on user icon of a game to check users participant.
 You can generate a random winner too.
 
+## Configuration
+
+### WIN OPTION
+
+Allow you to have page win/fail or joint participation page. ( default : true )
+
+### CONNECT OPTION
+
+Allow you to restric contest to connected user. ( default : false )
+
+### MAX PARTICIPATION OPTION
+
+Allow you to restrict participation for an email. ( default : 1 )
+
+### FRIEND OPTION
+
+Allow you to activate friend invitation. ( default : false )
+
+### FRIEND MAX OPTION 
+
+Limit number of input email are provide for sending email. ( default : 5 )
+
 ## Loop
 
 ### Game
