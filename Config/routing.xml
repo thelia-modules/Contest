@@ -100,6 +100,24 @@
         <requirement key="id">\d+</requirement>
     </route>
 
+    <route id="contest.config.toggle.win" path="/admin/module/Contest/win/toggle" methods="post">
+        <default key="_controller">Contest:Configuration:toggleWinOption</default>
+    </route>
+    <route id="contest.config.toggle.connect" path="/admin/module/Contest/connect/toggle" methods="post">
+        <default key="_controller">Contest:Configuration:toggleConnectOption</default>
+    </route>
+    <route id="contest.config.toggle.friend" path="/admin/module/Contest/friend/toggle" methods="post">
+        <default key="_controller">Contest:Configuration:toggleFriendOption</default>
+    </route>
+    <route id="contest.config.friend.max" path="/admin/module/Contest/friend/max/{val}" methods="post">
+        <default key="_controller">Contest:Configuration:setFriendMaxOption</default>
+        <requirement key="val">\d+</requirement>
+    </route>
+    <route id="contest.config.participate.max" path="/admin/module/Contest/participation/max/{val}" methods="post">
+        <default key="_controller">Contest:Configuration:setMaxParticipateOption</default>
+        <requirement key="val">\d+</requirement>
+    </route>
+
 
     <route id="contest.front.game" path="contest/game/{id}" methods="get">
         <default key="_controller">Contest:Front:game</default>

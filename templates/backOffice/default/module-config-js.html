@@ -1,0 +1,53 @@
+{javascripts file='assets/js/bootstrap-switch/bootstrap-switch.js'}
+    <script src="{$asset_url}"></script>
+{/javascripts}
+<script>
+    (function ($) {
+        $(".module-activation").on("switch-change", function (e, data) {
+
+            var checkbox = $(this);
+            var modal = $("#response-modal");
+            var url_management = checkbox.data("toggle-url");
+
+            $.ajax({
+                method: "POST",
+                url: url_management
+            }).always(function () {
+                $("#loading-event").remove();
+            }).done(function () {
+                $("#contest-modal-title").html("{intl l="This option has been updated"}");
+                $("#contest-modal-body").html("");
+                $("#contest-modal").modal("show");
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                checkbox.bootstrapSwitch('toggleState', true);
+                $("#contest-modal-title").html("{intl l="An error occurred"}");
+                $("#contest-modal-body").html(jqXHR.message);
+                $("#contest-modal").modal("show");
+            });
+
+        });
+        $(".submit").on("click",function(){
+            var $this = $(this);
+            var url = $this.data("url");
+            var val = $($this.data("input")).val();
+
+            $.ajax({
+                method: "POST",
+                url: url + val
+            }).always(function () {
+                $("#loading-event").remove();
+            }).done(function () {
+                $("#contest-modal-title").html("{intl l="This option has been updated"}");
+                $("#contest-modal-body").html("");
+                $("#contest-modal").modal("show");
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                checkbox.bootstrapSwitch('toggleState', true);
+                $("#contest-modal-title").html("{intl l="An error occurred"}");
+                $("#contest-modal-body").html(jqXHR.message);
+                $("#contest-modal").modal("show");
+            });
+        });
+    })(jQuery);
+</script>

@@ -27,8 +27,17 @@ class Contest extends BaseModule
 {
     const MESSAGE_DOMAIN = "contest";
     const ROUTER = "router.contest";
+
+    //Mail
     const MESSAGE_WIN = "contest_confirm_win";
     const MESSAGE_FRIEND = "contest_send_friend";
+
+    //Options
+    const WIN_OPTION = "contest_show_win_page";
+    const CONNECT_OPTION = "contest_must_connected";
+    const FRIEND_OPTION = "contest_can_invite_friend";
+    const FRIEND_MAX_OPTION = "contest_max_invitation";
+    const MAX_PARTICIPATE_OPTION = "contest_max_participate";
 
     /** @var Translator $translator */
     protected $translator;
@@ -55,13 +64,21 @@ class Contest extends BaseModule
             $database->insertSql(null, [__DIR__ . "/Config/create.sql", __DIR__ . "/Config/insert.sql"]);
         }
 
+        //MAIL DECLARATION
+        $this->declareMessage(self::MESSAGE_WIN, 'You win', 'You win');
+        $this->declareMessage(self::MESSAGE_FRIEND, 'You get invited to a game', 'You get invited to a game');
 
-        $this->declareMessage(self::MESSAGE_WIN,'You win','You win');
-        $this->declareMessage(self::MESSAGE_FRIEND,'You get invited to a game','You get invited to a game');
+        //OPTION INIT
+        $this->initOption(self::WIN_OPTION,true);
+        $this->initOption(self::CONNECT_OPTION,false);
+        $this->initOption(self::FRIEND_OPTION,false);
+        $this->initOption(self::FRIEND_MAX_OPTION,5);
+        $this->initOption(self::MAX_PARTICIPATE_OPTION,1);
 
     }
 
-    protected function declareMessage($name,$subject,$title){
+    protected function declareMessage($name, $subject, $title)
+    {
         $languages = LangQuery::create()->find();
 
         if (null === MessageQuery::create()->findOneByName($name)) {
@@ -69,10 +86,9 @@ class Contest extends BaseModule
             $message
                 ->setName($name)
                 ->setHtmlLayoutFileName('')
-                ->setHtmlTemplateFileName($name.'.html')
+                ->setHtmlTemplateFileName($name . '.html')
                 ->setTextLayoutFileName('')
-                ->setTextTemplateFileName($name.'.txt')
-            ;
+                ->setTextTemplateFileName($name . '.txt');
 
             foreach ($languages as $language) {
                 /** @var Lang $language */
@@ -90,6 +106,13 @@ class Contest extends BaseModule
             }
 
             $message->save();
+        }
+    }
+
+    protected function initOption($name, $value)
+    {
+        if (!$this->getConfigValue($name)) {
+            $this->setConfigValue($name, $value);
         }
     }
 }

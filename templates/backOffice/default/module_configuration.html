@@ -1,0 +1,137 @@
+{default_translation_domain domain='contest.ba.default'}
+
+<div class="general-block-decorator">
+    <div class="row">
+        <div class="col-md-12 title title-without-tabs">
+           <h1>{intl l='Edit your Contest configuration.'}</h1>
+        </div>
+    </div>
+
+    <h2>{intl l="Games Configuration"}</h2>
+    <div class="row">
+        <div class="form-container">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="toggle-win">
+                        {intl l="Win page : "}
+                    </label>
+
+                    <div class="btn-group">
+                        <div class="make-switch switch-small module-activation" id="toggle-win"
+                             data-on="success" data-off="danger"
+                             data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>"
+                             data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>"
+                             data-toggle-url="{url path="/admin/module/Contest/win/toggle"}">
+                            <input type="checkbox" {if $WIN_OPTION}checked{/if}>
+                        </div>
+                        <noscript>
+                            {if $WIN_OPTION}
+                                <a title="{intl l="Deactivate win option"}"
+                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID}">{intl l="deactivation" d="contest.bo.default"}</a>
+                            {else}
+                                <a title="{intl l="Activate win option"}"
+                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID}">{intl l="activation" d="contest.bo.default"}</a>
+                            {/if}
+                        </noscript>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="toggle-connect">
+                        {intl l="Customer have to be connected : "}
+                    </label>
+
+                    <div class="btn-group">
+                        <div class="make-switch switch-small module-activation" id="toggle-connect"
+                             data-on="success" data-off="danger"
+                             data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>"
+                             data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>"
+                             data-toggle-url="{url path="/admin/module/Contest/connect/toggle"}">
+                            <input type="checkbox" {if $CONNECT_OPTION}checked{/if}>
+                        </div>
+                        <noscript>
+                            {if $CONNECT_OPTION}
+                                <a title="{intl l="Deactivate connect option"}"
+                                   href="{url path="/admin/module/Contest/connect/toggle"}">{intl l="deactivation" d="contest.bo.default"}</a>
+                            {else}
+                                <a title="{intl l="Activate connect option"}"
+                                   href="{url path="/admin/module/Contest/connect/toggle"}">{intl l="activation" d="contest.bo.default"}</a>
+                            {/if}
+                        </noscript>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="max-participate">
+                        {intl l="Max participation : "}
+                    </label>
+
+                    <div class="btn-group">
+                        <input type="number" min="1" id="max-participate" value="{$MAX_PARTICIPATE_OPTION}">
+                    </div>
+                    <button class="btn btn-primary submit" id="max-participate-submit" data-input="#max-participate" data-url="{intl l="/admin/module/Contest/participation/max/"}">{intl l="Save"}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>{intl l="Friends Configuration"}</h2>
+    <div class="row">
+        <div class="form-container">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="toggle-friend">
+                        {intl l="Add Friends send invitations : "}
+                    </label>
+
+                    <div class="btn-group">
+                        <div class="make-switch switch-small module-activation" id="toggle-friend"
+                             data-on="success" data-off="danger"
+                             data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>"
+                             data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>"
+                             data-toggle-url="{url path="/admin/module/Contest/friend/toggle"}">
+                            <input type="checkbox" {if $FRIEND_OPTION}checked{/if}>
+                        </div>
+                        <noscript>
+                            {if $WIN_OPTION}
+                                <a title="{intl l="Deactivate friend option"}"
+                                   href="{url path="/admin/module/Contest/friend/toggle"}">{intl l="deactivation" d="contest.bo.default"}</a>
+                            {else}
+                                <a title="{intl l="Activate friend option"}"
+                                   href="{url path="/admin/module/Contest/friend/toggle"}">{intl l="activation" d="contest.bo.default"}</a>
+                            {/if}
+                        </noscript>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label" for="max-friend">
+                        {intl l="Max friend invitations : "}
+                    </label>
+                    <div class="btn-group">
+                        <input type="number" min="1" id="max-friend" value="{$FRIEND_MAX_OPTION}" />
+                    </div>
+                    <button class="btn btn-primary submit" id="max-friend-submit"  data-input="#max-friend" data-url="{intl l="/admin/module/Contest/friend/max/"}">{intl l="Save"}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="contest-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="contest-modal-title">{intl  l="An error occured"}</h3>
+            </div>
+            <div class="modal-body" id="contest-modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
