@@ -1,0 +1,79 @@
+{extends file="layout.tpl"}
+
+{* Body Class *}
+{block name="body-class"}page-game{/block}
+
+{* Page Title *}
+{block name='no-return-functions' append}
+    {loop name="game.seo.title" type="game" id=$game_id limit="1"}
+    {$page_title = {$TITLE}}
+    {/loop}
+{/block}
+
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = []}
+    {loop type="game" name="game_breadcrumb" id=$game_id limit="1"}
+    {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> "#"]}
+    {/loop}
+{/block}
+
+{* Content *}
+{block name="main-content"}
+    {if $game_id}
+        <div class="main">
+            {loop name="game.details" type="game" id=$game_id limit=1}
+                <article id="game" class="col-main" role="main">
+                    <h1 id="main-label" class="page-header">{$TITLE}</h1>
+
+                    <h2>{intl l="Thanks for your participation" d='contest.fo.default'}</h2>
+
+                    <p>{intl l="See you" d='contest.fo.default'}</p>
+
+
+                    {if $FRIEND_OPTION}
+                        <div>
+                            <h2>{intl l="You can invite some(s) friend to add chance to win" d='contest.fo.default'}</h2>
+                            {for $var=1 to $FRIEND_MAX_OPTION}
+                                <div>
+                                    <input type="email" class="friend">
+                                </div>
+                            {/for}
+                            <button class="btn btn-primary" id="submit-friend">{intl l="Envoyer"}</button>
+                        </div>
+                    {/if}
+
+                    <div class="btn-group text-center">
+                        <a class="btn btn-primary" href="{url path="/"}">{intl l="Go home"}</a>
+                    </div>
+                </article>
+            {/loop}
+        </div>
+    {/if}
+{/block}
+
+{block name="javascript-initialization"}
+    {if $FRIEND_OPTION}
+        <script>
+            (function ($) {
+                $("#submit-friend").on("click",function(){
+                    var friends = [];
+                    $(".friend").each(function(){
+                        friends.push($(this).val());
+                    });
+
+                    $.ajax({
+                        method: "POST",
+                        url: "{url path="contest/game/invite/{$game_id}/{$part_id}"}",
+                        data:{
+                            "friends": friends
+                        }
+                    }).always(function () {
+                        $("#loading-event").remove();
+                    });
+                });
+            })(jQuery);
+        </script>
+    {/if}
+{/block}

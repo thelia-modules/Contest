@@ -135,5 +135,15 @@
         <default key="_controller">Contest:Front:failGame</default>
         <requirement key="id">\d+</requirement>
     </route>
+    <route id="contest.front.game.end" path="contest/game/end/{id}/participate/{part}" methods="get">
+        <default key="_controller">Contest:Front:endGame</default>
+        <requirement key="id">\d+</requirement>
+        <requirement key="part">\d+</requirement>
+    </route>
+    <route id="contest.front.game.invite" path="contest/game/invite/{id}/{part}" methods="post">
+        <default key="_controller">Contest:Front:sendInvitation</default>
+        <requirement key="id">\d+</requirement>
+        <requirement key="part">\d+</requirement>
+    </route>
 
 </routes>

@@ -19,7 +19,7 @@
 {block name="email-content"}
     {intl l="Hello,"}<br /><br />
     {intl l="%name invited you to a contest at %store_name" store_name={config key="store_name"} name=$NAME  d="contest.email.default"}.<br /><br />
-    {intl l='Click <a href="%link">here</a> to participate' link={url path="contest/game/$GAME_ID"}" d="contest.email.default"}.<br /><br />
+    {intl l='Click <a href="%link">here</a> to participate' link={url path="contest/game/$GAME_ID"} d="contest.email.default"}.<br /><br />
     {intl l='Kind regards'},<br />
     {intl l="The %store team." store={config key="store_name"}}
 {/block}

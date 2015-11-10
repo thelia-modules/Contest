@@ -110,12 +110,15 @@ class MailListener extends BaseAction implements EventSubscriberInterface
 
     public function sendFriend(MailFriendEvent $event)
     {
-        /** @var Game $game */ /** @var  Participate $participate */
-        if ($game = $event->getGame() && $participate = $event->getParticipate()) {
+        if (null != $event->getGame() && null != $event->getParticipate()) {
+            /** @var Game $game */
+            $game = $event->getGame();
+            /** @var  Participate $participate */
+            $participate = $event->getParticipate();
             if ($contact_email = ConfigQuery::read('store_email', false)) {
                 $name = $participate->getEmail();
-                if($customer = $participate->getCustomer()){
-                    $name = $customer->getFirstname() ." ".$customer->getLastname();
+                if ($customer = $participate->getCustomer()) {
+                    $name = $customer->getFirstname() . " " . $customer->getLastname();
                 }
                 $param = [
                     "NAME" => $name,
@@ -123,7 +126,8 @@ class MailListener extends BaseAction implements EventSubscriberInterface
                 ];
 
                 foreach ($event->getFriends() as $email_friend) {
-                    $this->mailer->sendEmailMessage(Contest::MESSAGE_FRIEND, $contact_email, $email_friend, $param);
+                    $this->getMailer()->sendEmailMessage(Contest::MESSAGE_FRIEND, [$contact_email], [$email_friend],
+                        $param);
                 }
             }
         }

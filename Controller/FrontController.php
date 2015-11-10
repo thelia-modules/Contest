@@ -14,9 +14,13 @@
 namespace Contest\Controller;
 
 use Contest\Contest;
+use Contest\Event\MailEvents;
+use Contest\Event\MailFriendEvent;
 use Contest\Event\Module\ContestEvents;
 use Contest\Event\ParticipateEvent;
 use Contest\Model\AnswerQuery;
+use Contest\Model\GameQuery;
+use Contest\Model\ParticipateQuery;
 use Contest\Model\Question;
 use Contest\Model\QuestionQuery;
 use Thelia\Controller\Front\BaseFrontController;
@@ -35,9 +39,10 @@ class FrontController extends BaseFrontController
      */
     public function gameAction($id)
     {
-        if(Contest::getConfigValue(Contest::CONNECT_OPTION) && null == $this->getSecurityContext()->getCustomerUser()){
+        if (Contest::getConfigValue(Contest::CONNECT_OPTION) && null == $this->getSecurityContext()->getCustomerUser()) {
             return $this->generateRedirectFromRoute("customer.login.view");
         }
+
         return $this->render("game", ["game_id" => $id]);
     }
 
@@ -99,14 +104,22 @@ class FrontController extends BaseFrontController
             /* TEST WIN */
             /* TODO : Voir les conditions de victoire */
             $event->setWin($all_correct);
-            if ($all_correct) {
-                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER,"contest.front.game.success",["id"=>$id]);
-            } else {
-                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER,"contest.front.game.fail",["id"=>$id]);
-            }
 
             /* Create participate */
             $this->dispatch(ContestEvents::PARTICIPATE_CREATE, $event);
+
+            if (Contest::getConfigValue(Contest::WIN_OPTION)) {
+                if ($all_correct) {
+                    $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.success",
+                        ["id" => $id]);
+                } else {
+                    $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.fail",
+                        ["id" => $id]);
+                }
+            } else {
+                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.end", ["id" => $id, "part" => $event->getParticipate()->getId()]);
+            }
+
             $retour["message"] = $this->getTranslator()->trans("Success", [], Contest::MESSAGE_DOMAIN);
 
         } catch (\Exception $e) {
@@ -123,8 +136,9 @@ class FrontController extends BaseFrontController
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
      */
-    public function successGameAction($id){
-        return $this->render("game-success",["game_id" => $id]);
+    public function successGameAction($id)
+    {
+        return $this->render("game-success", ["game_id" => $id]);
     }
 
     /**
@@ -132,8 +146,49 @@ class FrontController extends BaseFrontController
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
      */
-    public function failGameAction($id){
-        return $this->render("game-fail",["game_id" => $id]);
+    public function failGameAction($id)
+    {
+        return $this->render("game-fail", ["game_id" => $id]);
+    }
+
+    /**
+     * Render End page
+     * @param $id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
+    public function endGameAction($id,$part)
+    {
+        $param = [
+            "game_id" => $id,
+            "part_id" => $part,
+            "FRIEND_OPTION" => Contest::getConfigValue(Contest::FRIEND_OPTION),
+            "FRIEND_MAX_OPTION" => Contest::getConfigValue(Contest::FRIEND_MAX_OPTION)
+        ];
+
+        return $this->render("game-end", $param);
+    }
+
+    public function sendInvitationAction($id,$part){
+        $resp = array(
+            "message" => ""
+        );
+        $code = 200;
+        try {
+            $event = new MailFriendEvent();
+            $event->setGame(GameQuery::create()->findOneById($id));
+            $event->setParticipate(ParticipateQuery::create()->findOneById($part));
+            $friends = $this->getRequest()->get("friends");
+            if(is_array($friends)){
+                $event->setFriends($friends);
+            }
+            $this->dispatch(MailEvents::SEND_FRIEND,$event);
+            $resp["message"] = $this->getTranslator()->trans("Send invitation", [], Contest::MESSAGE_DOMAIN);
+        } catch (\Exception $e) {
+            $resp["message"] = $e->getMessage();
+            $code = 500;
+        }
+
+        return JsonResponse::create($resp, $code);
     }
 
     /**
