@@ -35,6 +35,9 @@ class FrontController extends BaseFrontController
      */
     public function gameAction($id)
     {
+        if(Contest::getConfigValue(Contest::CONNECT_OPTION) && null == $this->getSecurityContext()->getCustomerUser()){
+            return $this->generateRedirectFromRoute("customer.login.view");
+        }
         return $this->render("game", ["game_id" => $id]);
     }
 
