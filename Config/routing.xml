@@ -24,7 +24,7 @@
       ...
       </route>
       -->
-    <route id="contest.game.list" path="/admin/module/Contest/game" methods="get">
+    <!--<route id="contest.game.list" path="/admin/module/Contest/game" methods="get">
         <default key="_controller">Contest:Game:default</default>
     </route>
     <route id="contest.game.create" path="/admin/module/Contest/game" methods="post">
@@ -41,8 +41,8 @@
     </route>
     <route id="contest.game.toggle_visibility" path="/admin/module/Contest/game/toggleVisibility" methods="get">
         <default key="_controller">Contest:Game:setToggleVisibility</default>
-    </route>
-    <route id="contest.question.list" path="/admin/module/Contest/question" methods="get">
+    </route>-->
+    <!--<route id="contest.question.list" path="/admin/module/Contest/question" methods="get">
         <default key="_controller">Contest:Question:default</default>
     </route>
     <route id="contest.question.create" path="/admin/module/Contest/question" methods="post">
@@ -59,8 +59,8 @@
     </route>
     <route id="contest.question.toggle_visibility" path="/admin/module/Contest/question/toggleVisibility" methods="get">
         <default key="_controller">Contest:Question:setToggleVisibility</default>
-    </route>
-    <route id="contest.answer.list" path="/admin/module/Contest/answer" methods="get">
+    </route>-->
+    <!--<route id="contest.answer.list" path="/admin/module/Contest/answer" methods="get">
         <default key="_controller">Contest:Answer:default</default>
     </route>
     <route id="contest.answer.create" path="/admin/module/Contest/answer" methods="post">
@@ -77,8 +77,8 @@
     </route>
     <route id="contest.answer.toggle_visibility" path="/admin/module/Contest/answer/toggleVisibility" methods="get">
         <default key="_controller">Contest:Answer:setToggleVisibility</default>
-    </route>
-    <route id="contest.participate.list" path="/admin/module/Contest/participate" methods="get">
+    </route>-->
+    <!--<route id="contest.participate.list" path="/admin/module/Contest/participate" methods="get">
         <default key="_controller">Contest:Participate:default</default>
     </route>
     <route id="contest.participate.create" path="/admin/module/Contest/participate" methods="post">
@@ -89,8 +89,8 @@
     </route>
     <route id="contest.participate.edit" path="/admin/module/Contest/participate/edit" methods="post">
         <default key="_controller">Contest:Participate:processUpdate</default>
-    </route>
-    <route id="contest.participate.winner" path="/admin/module/Contest/participate/winner/{id}" methods="get">
+    </route>-->
+    <!--<route id="contest.participate.winner" path="/admin/module/Contest/participate/winner/{id}" methods="get">
         <default key="_controller">Contest:Participate:generateWinner</default>
         <requirement key="id">\d+</requirement>
     </route>
@@ -98,9 +98,9 @@
         <default key="_controller">Contest:Participate:processMailWinner</default>
         <requirement key="game_id">\d+</requirement>
         <requirement key="id">\d+</requirement>
-    </route>
+    </route>-->
 
-    <route id="contest.config.toggle.win" path="/admin/module/Contest/win/toggle" methods="post">
+    <!--<route id="contest.config.toggle.win" path="/admin/module/Contest/win/toggle" methods="post">
         <default key="_controller">Contest:Configuration:toggleWinOption</default>
     </route>
     <route id="contest.config.toggle.connect" path="/admin/module/Contest/connect/toggle" methods="post">
@@ -116,10 +116,10 @@
     <route id="contest.config.participate.max" path="/admin/module/Contest/participation/max/{val}" methods="post">
         <default key="_controller">Contest:Configuration:setMaxParticipateOption</default>
         <requirement key="val">\d+</requirement>
-    </route>
+    </route>-->
 
 
-    <route id="contest.front.game" path="contest/game/{id}" methods="get">
+    <!--<route id="contest.front.game" path="contest/game/{id}" methods="get">
         <default key="_controller">Contest:Front:game</default>
         <requirement key="id">\d+</requirement>
     </route>
@@ -144,6 +144,6 @@
         <default key="_controller">Contest:Front:sendInvitation</default>
         <requirement key="id">\d+</requirement>
         <requirement key="part">\d+</requirement>
-    </route>
+    </route>-->
 
 </routes>

@@ -6,14 +6,28 @@
 
 namespace Contest\Form;
 
-use Contest\Form\Base\QuestionUpdateForm as BaseQuestionUpdateForm;
+use Contest\Form\QuestionCreateForm as ChildQuestionCreateForm;
+use Contest\Form\Type\QuestionIdType;
 
 /**
- * Class QuestionUpdateForm
+ * Class QuestionForm
  * @package Contest\Form
+ * @author TheliaStudio
  */
-class QuestionUpdateForm extends BaseQuestionUpdateForm
+class QuestionUpdateForm extends ChildQuestionCreateForm
 {
+    const FORM_NAME = "question_update";
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("id", QuestionIdType::class)
+            ->remove("visible")
+        ;
+    }
+
     public function getTranslationKeys()
     {
         return array(

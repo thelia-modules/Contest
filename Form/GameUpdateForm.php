@@ -6,19 +6,32 @@
 
 namespace Contest\Form;
 
-use Contest\Form\Base\GameUpdateForm as BaseGameUpdateForm;
+use Contest\Form\GameCreateForm as ChildGameCreateForm;
+use Contest\Form\Type\GameIdType;
 
 /**
- * Class GameUpdateForm
+ * Class GameForm
  * @package Contest\Form
+ * @author TheliaStudio
  */
-class GameUpdateForm extends BaseGameUpdateForm
+class GameUpdateForm extends ChildGameCreateForm
 {
+    const FORM_NAME = "game_update";
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("id", GameIdType::class)
+            ->remove("visible")
+        ;
+    }
+
     public function getTranslationKeys()
     {
         return array(
             "id" => "id",
-            "visible" => "visible",
             "title" => "title",
             "description" => "description",
         );

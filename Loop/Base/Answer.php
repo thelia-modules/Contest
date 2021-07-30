@@ -24,7 +24,6 @@ use Contest\Model\AnswerQuery;
 class Answer extends BaseI18nLoop implements PropelSearchLoopInterface
 {
     protected $timestampable = true;
-    protected $versionable = true;
 
     /**
      * @param LoopResult $loopResult

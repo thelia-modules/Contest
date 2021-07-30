@@ -6,9 +6,13 @@
 
 namespace Contest\Controller\Base;
 
+use Contest\Form\AnswerCreateForm;
+use Contest\Form\AnswerUpdateForm;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Controller\Admin\AbstractCrudController;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Tools\URL;
 use Contest\Event\AnswerEvent;
 use Contest\Event\AnswerEvents;
@@ -43,7 +47,7 @@ class AnswerController extends AbstractCrudController
      */
     protected function getCreationForm()
     {
-        return $this->createForm("answer.create");
+        return $this->createForm(AnswerCreateForm::FORM_NAME);
     }
 
     /**
@@ -55,7 +59,7 @@ class AnswerController extends AbstractCrudController
             $data = array();
         }
 
-        return $this->createForm("answer.update", "form", $data);
+        return $this->createForm(AnswerUpdateForm::FORM_NAME, FormType::class, $data);
     }
 
     /**
@@ -63,7 +67,7 @@ class AnswerController extends AbstractCrudController
      *
      * @param mixed $object
      */
-    protected function hydrateObjectForm($object)
+    protected function hydrateObjectForm(ParserContext $parserContext, $object)
     {
         $data = array(
             "id" => $object->getId(),
@@ -107,7 +111,6 @@ class AnswerController extends AbstractCrudController
         $event = new AnswerEvent();
 
         $event->setId($formData["id"]);
-        $event->setVisible($formData["visible"]);
         $event->setCorrect($formData["correct"]);
         $event->setTitle($formData["title"]);
         $event->setDescription($formData["description"]);

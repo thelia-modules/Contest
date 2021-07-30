@@ -13,18 +13,56 @@ use Contest\Model\GameQuery;
 use Contest\Model\Participate;
 use Contest\Model\ParticipateQuery;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Thelia\Core\HttpFoundation\Request;
+use Thelia\Core\Template\ParserContext;
 
 /**
+ * @Route("/admin/module/Contest/participate", name="contest.participate")
  * Class ParticipateController
  * @package Contest\Controller
  */
 class ParticipateController extends BaseParticipateController
 {
+    /**
+     * @Route("", name=".list", methods="GET")
+     */
+    public function defaultAction()
+    {
+        return parent::defaultAction();
+    }
+
+    /**
+     * @Route("", name=".create", methods="POST")
+     */
+    public function createAction(\Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher, TranslatorInterface $translator)
+    {
+        return parent::createAction($eventDispatcher, $translator);
+    }
+
+    /**
+     * @Route("/edit", name=".view", methods="GET")
+     */
+    public function updateAction(ParserContext $parserContext)
+    {
+        return parent::updateAction($parserContext);
+    }
+
+    /**
+     * @Route("/edit", name=".edit", methods="POST")
+     */
+    public function processUpdateAction(Request $request, \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher, TranslatorInterface $translator)
+    {
+        return parent::processUpdateAction($request, $eventDispatcher, $translator);
+    }
 
     /**
      * Generate Winner for a game
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
+     * @Route("/winner/{id}", name=".winner", methods="GET")
      */
     public function generateWinnerAction($id)
     {
@@ -41,7 +79,10 @@ class ParticipateController extends BaseParticipateController
 
     }
 
-    public function processMailWinnerAction($game_id, $id)
+    /**
+     * @Route("/winner/mail/{game_id}/{id}", name=".winner.mail", methods="GET")
+     */
+    public function processMailWinnerAction($game_id, $id, EventDispatcherInterface $dispatcher)
     {
         $game = GameQuery::create()->filterById($game_id)->findOne();
         $participate = ParticipateQuery::create()->filterById($id)->findOne();
@@ -52,7 +93,7 @@ class ParticipateController extends BaseParticipateController
             $event->setGame($game);
             $event->setParticipate($participate);
             try {
-                $this->dispatch(MailEvents::SEND, $event);
+                $dispatcher->dispatch($event, MailEvents::SEND);
             } catch (\Exception $e) {
 
             }

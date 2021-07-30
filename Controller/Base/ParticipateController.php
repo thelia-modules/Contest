@@ -6,9 +6,13 @@
 
 namespace Contest\Controller\Base;
 
+use Contest\Form\ParticipateCreateForm;
+use Contest\Form\ParticipateUpdateForm;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Controller\Admin\AbstractCrudController;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Tools\URL;
 use Contest\Event\ParticipateEvent;
 use Contest\Event\ParticipateEvents;
@@ -42,7 +46,7 @@ class ParticipateController extends AbstractCrudController
      */
     protected function getCreationForm()
     {
-        return $this->createForm("participate.create");
+        return $this->createForm(ParticipateCreateForm::FORM_NAME);
     }
 
     /**
@@ -54,7 +58,7 @@ class ParticipateController extends AbstractCrudController
             $data = array();
         }
 
-        return $this->createForm("participate.update", "form", $data);
+        return $this->createForm(ParticipateUpdateForm::FORM_NAME, FormType::class, $data);
     }
 
     /**
@@ -62,7 +66,7 @@ class ParticipateController extends AbstractCrudController
      *
      * @param mixed $object
      */
-    protected function hydrateObjectForm($object)
+    protected function hydrateObjectForm(ParserContext $parserContext, $object)
     {
         $data = array(
             "id" => $object->getId(),

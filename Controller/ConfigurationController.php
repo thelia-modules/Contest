@@ -18,31 +18,48 @@ use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Translation\Translator;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/admin/module/Contest", name="contest.config")
  * Class ConfigurationController
  * @package Controller
  */
 class ConfigurationController extends BaseAdminController
 {
+    /**
+     * @Route("/win/toggle", name=".toggle.win", methods="POST")
+     */
     public function toggleWinOptionAction(){
 
         return $this->toggleOption(Contest::WIN_OPTION);
     }
 
-
+    /**
+     * @Route("/connect/toggle", name=".toggle.connect", methods="POST")
+     */
     public function toggleConnectOptionAction(){
         return $this->toggleOption(Contest::CONNECT_OPTION);
     }
 
+    /**
+     * @Route("/friend/toggle", name=".toggle.friend", methods="POST")
+     */
     public function toggleFriendOptionAction(){
         return $this->toggleOption(Contest::FRIEND_OPTION);
     }
 
+    /**
+     * @Route("/friend/max/{val}", name=".friend.max", methods="POST")
+     */
     public function setFriendMaxOptionAction($val){
         return $this->setOption(Contest::FRIEND_MAX_OPTION,$val);
     }
 
+    /**
+     * @Route("/participation/max/{val}", name=".participate.max", methods="POST")
+     */
     public function setMaxParticipateOptionAction($val){
         return $this->setOption(Contest::MAX_PARTICIPATE_OPTION,$val);
     }
@@ -60,7 +77,7 @@ class ConfigurationController extends BaseAdminController
         $code = 200;
         try {
             Contest::setConfigValue($name, !Contest::getConfigValue($name));
-            $resp["message"] = $this->getTranslator()->trans("Config toggle succes", [], Contest::MESSAGE_DOMAIN);
+            $resp["message"] = Translator::getInstance()->trans("Config toggle succes", [], Contest::MESSAGE_DOMAIN);
         } catch (\Exception $e) {
             $resp["message"] = $e->getMessage();
             $code = 500;
@@ -82,7 +99,7 @@ class ConfigurationController extends BaseAdminController
         $code = 200;
         try {
             Contest::setConfigValue($name,$value);
-            $resp["message"] = $this->getTranslator()->trans("Config toggle succes", [], Contest::MESSAGE_DOMAIN);
+            $resp["message"] = Translator::getInstance()->trans("Config toggle succes", [], Contest::MESSAGE_DOMAIN);
         } catch (\Exception $e) {
             $resp["message"] = $e->getMessage();
             $code = 500;

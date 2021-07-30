@@ -15,7 +15,7 @@
     {$question_id={$smarty.get.question}}
     <div id="wrapper" class="container">
 
-        {if $general_error}
+        {if $general_error|default:null}
             <div class="alert alert-danger">
                 {$general_error}
             </div>
@@ -194,7 +194,7 @@
     </div>
     {* CREATE Modal *}
 
-    {form name="answer.create"}
+    {form name="answer_create"}
     {capture "answer_create"}
         {form_hidden_fields form=$form}
 
@@ -211,7 +211,7 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="visible"}{$message}{/form_error}
+                {form_error form=$form field="visible"}{$message|default:null}{/form_error}
 
                 <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if}
                        placeholder="{intl l='The Answer visible' d='contest.bo.default'}"/>
@@ -224,9 +224,9 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="correct"}{$message}{/form_error}
+                {form_error form=$form field="correct"}{$message|default:null}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $CORRECT}checked{/if}
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $CORRECT|default:null}checked{/if}
                        placeholder="{intl l='The Answer correct' d='contest.bo.default'}"/>
             </div>
         {/form_field}
@@ -237,7 +237,7 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="title"}{$message}{/form_error}
+                {form_error form=$form field="title"}{$message|default:null}{/form_error}
 
                 <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}"
                        placeholder="{intl l='The Answer title' d='contest.bo.default'}"/>
@@ -250,7 +250,7 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="description"}{$message}{/form_error}
+                {form_error form=$form field="description"}{$message|default:null}{/form_error}
 
                 <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
                           placeholder="{intl l='The Answer description' d='contest.bo.default'}">{$DESCRIPTION}</textarea>
@@ -266,7 +266,7 @@
                         {$label}
                         {if $required}<span class="required">*</span>{/if}
                     </label>
-                    {form_error form=$form field="question_id"}{$message}{/form_error}
+                    {form_error form=$form field="question_id"}{$message|default:null}{/form_error}
                     <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}"
                            value="{$QUESTION_ID}" placeholder="{intl l='The Answer question_id' d='contest.bo.default'}"/>
                 {/if}</div>
@@ -301,6 +301,7 @@
     dialog_id       = "answer-delete"
     dialog_title    = {intl l="Delete an entry of Answer" d="contest.bo.default"}
     dialog_message  = {$smarty.capture.answer_delete nofilter}
+    form_content    = null
 
 dialog_ok_label     = {intl l="Delete"}
 dialog_cancel_label = {intl l="Cancel"}

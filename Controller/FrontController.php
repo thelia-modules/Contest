@@ -23,10 +23,17 @@ use Contest\Model\GameQuery;
 use Contest\Model\ParticipateQuery;
 use Contest\Model\Question;
 use Contest\Model\QuestionQuery;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\JsonResponse;
+use Thelia\Core\Security\SecurityContext;
+use Thelia\Core\Translation\Translator;
+use Symfony\Component\Routing\Annotation\Route;
+use Thelia\Tools\URL;
 
 /**
+ * @Route("/contest/game", name="contest.front")
  * Class FrontController
  * @package Contest\Controller
  */
@@ -35,15 +42,15 @@ class FrontController extends BaseFrontController
     /**
      * Render Game
      * @param $id
-     * @return \Thelia\Core\HttpFoundation\Response
+     * @Route("/{id}", name=".game", methods="GET")
      */
-    public function gameAction($id)
+    public function gameAction($id, SecurityContext $securityContext)
     {
-        if (Contest::getConfigValue(Contest::CONNECT_OPTION) && null == $this->getSecurityContext()->getCustomerUser()) {
+        if (Contest::getConfigValue(Contest::CONNECT_OPTION) && null == $securityContext->getCustomerUser()) {
             return $this->generateRedirectFromRoute("customer.login.view");
         }
 
-        if (null != $customer = $this->getSecurityContext()->getCustomerUser()) {
+        if (null != $customer = $securityContext->getCustomerUser()) {
             if (!$this->testMaxParticipation($customer->getUsername(), $id)) {
                 return $this->render("game-max-participate", [
                     "game_id" => $id,
@@ -60,8 +67,9 @@ class FrontController extends BaseFrontController
      * Process the game
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response|static
+     * @Route("/{id}", name=".game.process", methods="POST")
      */
-    public function processGameAction($id)
+    public function processGameAction($id, RequestStack $requestStack, SecurityContext $securityContext, EventDispatcherInterface $dispatcher)
     {
 
         $this->checkXmlHttpRequest();
@@ -70,16 +78,17 @@ class FrontController extends BaseFrontController
             "message" => ""
         ];
 
-        $data = $this->getRequest()->get("questions");
-        $customer_id = $this->getRequest()->get("customer_id");
-        $email = $this->getRequest()->get("email");
+        $request = $requestStack->getCurrentRequest();
+        $data = $request->get("questions");
+        $customer_id = $request->get("customer_id");
+        $email = $request->get("email");
         $event = new ParticipateEvent();
 
         $event->setGameId($id);
 
         /* TEST MAIL AND CUSTOMER */
         if ($customer_id) {
-            $customer = $this->getSecurityContext()->getCustomerUser();
+            $customer = $securityContext->getCustomerUser();
             if ($customer && $customer->getId() == $customer_id) {
                 $event->setCustomerId($customer_id);
                 $event->setEmail($customer->getUsername());
@@ -127,22 +136,20 @@ class FrontController extends BaseFrontController
             $event->setWin($all_correct);
 
             /* Create participate */
-            $this->dispatch(ContestEvents::PARTICIPATE_CREATE, $event);
+            $dispatcher->dispatch($event, ContestEvents::PARTICIPATE_CREATE);
 
             if (Contest::getConfigValue(Contest::WIN_OPTION)) {
                 if ($all_correct) {
-                    $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.success",
-                        ["id" => $id]);
+                    $retour["url"] = URL::getInstance()->absoluteUrl("/contest/game/success/$id");
                 } else {
-                    $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.fail",
-                        ["id" => $id]);
+                    $retour["url"] = URL::getInstance()->absoluteUrl("/contest/game/fail/$id");
                 }
             } else {
-                $retour["url"] = $this->getRouteFromRouter(Contest::ROUTER, "contest.front.game.end",
-                    ["id" => $id, "part" => $event->getParticipate()->getId()]);
+                $part = $event->getParticipate()->getId();
+                $retour["url"] = URL::getInstance()->absoluteUrl("contest/game/end/$id/participate/$part");
             }
 
-            $retour["message"] = $this->getTranslator()->trans("Success", [], Contest::MESSAGE_DOMAIN);
+            $retour["message"] = Translator::getInstance()->trans("Success", [], Contest::MESSAGE_DOMAIN);
 
         } catch (\Exception $e) {
             $retour["code"] = $e->getCode();
@@ -157,6 +164,7 @@ class FrontController extends BaseFrontController
      * Render Success page
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
+     * @Route("/success/{id}", name=".game.success", methods="GET")
      */
     public function successGameAction($id)
     {
@@ -167,6 +175,7 @@ class FrontController extends BaseFrontController
      * Render Fail page
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
+     * @Route("/fail/{id}", name=".game.fail", methods="GET")
      */
     public function failGameAction($id)
     {
@@ -177,6 +186,7 @@ class FrontController extends BaseFrontController
      * Render End page
      * @param $id
      * @return \Thelia\Core\HttpFoundation\Response
+     * @Route("/end/{id}/participate/{part}", name=".game.end", methods="GET")
      */
     public function endGameAction($id, $part)
     {
@@ -190,7 +200,10 @@ class FrontController extends BaseFrontController
         return $this->render("game-end", $param);
     }
 
-    public function sendInvitationAction($id, $part)
+    /**
+     * @Route("/invite/{id}/{part}", name=".game.invite", methods="POST")
+     */
+    public function sendInvitationAction($id, $part, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
     {
         $resp = array(
             "message" => ""
@@ -200,12 +213,12 @@ class FrontController extends BaseFrontController
             $event = new MailFriendEvent();
             $event->setGame(GameQuery::create()->findOneById($id));
             $event->setParticipate(ParticipateQuery::create()->findOneById($part));
-            $friends = $this->getRequest()->get("friends");
+            $friends = $requestStack->getCurrentRequest()->get("friends");
             if (is_array($friends)) {
                 $event->setFriends($friends);
             }
-            $this->dispatch(MailEvents::SEND_FRIEND, $event);
-            $resp["message"] = $this->getTranslator()->trans("Send invitation", [], Contest::MESSAGE_DOMAIN);
+            $dispatcher->dispatch($event, MailEvents::SEND_FRIEND);
+            $resp["message"] = Translator::getInstance()->trans("Send invitation", [], Contest::MESSAGE_DOMAIN);
         } catch (\Exception $e) {
             $resp["message"] = $e->getMessage();
             $code = 500;

@@ -13,10 +13,10 @@
 
 {block name="main-content"}
 
-    {form name="participate.update"}
+    {form name="participate_update"}
         <div id="wrapper" class="container">
 
-            {if $form_error}
+            {if $form_error|default:null}
                 <div class="alert alert-danger">{$form_error_message}</div>
             {/if}
 
@@ -51,9 +51,9 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="email"}{$message}{/form_error}
+                                            {form_error form=$form field="email"}{$message|default:null}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL}" placeholder="{intl l='The Participate email'}" />
+                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL|default:null}" placeholder="{intl l='The Participate email'}" />
                                         </div>
                                     {/form_field}
                                     {form_field form=$form field="win"}
@@ -63,7 +63,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="win"}{$message}{/form_error}
+                                            {form_error form=$form field="win"}{$message|default:null}{/form_error}
 
                                                 <input type="checkbox" class="form-control" name="{$name}" id="{$label_attr.for}" {if $WIN}checked{/if} placeholder="{intl l='The Participate win'}" />
                                         </div>
@@ -75,7 +75,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="game_id"}{$message}{/form_error}
+                                            {form_error form=$form field="game_id"}{$message|default:null}{/form_error}
 
                                                 <input type="number" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Participate game_id'}" />
                                         </div>
@@ -87,7 +87,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="customer_id"}{$message}{/form_error}
+                                            {form_error form=$form field="customer_id"}{$message|default:null}{/form_error}
 
                                                 <input type="number" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CUSTOMER_ID}" placeholder="{intl l='The Participate customer_id'}" />
                                         </div>
