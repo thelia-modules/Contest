@@ -54,15 +54,10 @@ class Contest extends BaseModule
 
     public function postActivation(ConnectionInterface $con = null): void
     {
-
-        try {
-            GameQuery::create()->findOne();
-            QuestionQuery::create()->findOne();
-            AnswerQuery::create()->findOne();
-            ParticipateQuery::create()->findOne();
-        } catch (\Exception $e) {
+        if (!self::getConfigValue('is_initialized', false)) {
             $database = new Database($con);
             $database->insertSql(null, [__DIR__ . "/Config/TheliaMain.sql"]);
+            self::setConfigValue('is_initialized', true);
         }
 
         //MAIL DECLARATION
