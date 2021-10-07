@@ -14,7 +14,7 @@
 {block name="main-content"}
     <div id="wrapper" class="container">
         {$game_id={$smarty.get.game}}
-        {if $general_error}
+        {if $general_error|default:null}
             <div class="alert alert-danger">
                 {$general_error}
             </div>
@@ -100,7 +100,7 @@
                                 <a href="{url path='/admin/module/Contest/participate/edit' participate_id=$ID}">{$ID}</a>
                             </td>
                             <td>
-                                {$EMAIL}
+                                {$EMAIL|default:null}
                             </td>
                             <td>
                                 {if $WIN}{intl l="WIN"}{else}{intl l="FAIL"}{/if}
@@ -160,7 +160,7 @@
 
     {* CREATE Modal *}
 
-    {form name="participate.create"}
+    {form name="participate_create"}
     {capture "participate_create"}
         {form_hidden_fields form=$form}
 
@@ -174,9 +174,9 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="email"}{$message}{/form_error}
+                {form_error form=$form field="email"}{$message|default:null}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL}" placeholder="{intl l='The Participate email' d='contest.bo.default'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$EMAIL|default:null}" placeholder="{intl l='The Participate email' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="win"}
@@ -186,9 +186,9 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="win"}{$message}{/form_error}
+                {form_error form=$form field="win"}{$message|default:null}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $WIN}checked{/if} placeholder="{intl l='The Participate win' d='contest.bo.default'}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $WIN|default:null}checked{/if} placeholder="{intl l='The Participate win' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="game_id"}
@@ -198,9 +198,9 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="game_id"}{$message}{/form_error}
+                {form_error form=$form field="game_id"}{$message|default:null}{/form_error}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID}" placeholder="{intl l='The Participate game_id' d='contest.bo.default'}" />
+                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$GAME_ID|default:null}" placeholder="{intl l='The Participate game_id' d='contest.bo.default'}" />
             </div>
         {/form_field}
         {form_field form=$form field="customer_id"}
@@ -210,9 +210,9 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="customer_id"}{$message}{/form_error}
+                {form_error form=$form field="customer_id"}{$message|default:null}{/form_error}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CUSTOMER_ID}" placeholder="{intl l='The Participate customer_id' d='contest.bo.default'}" />
+                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CUSTOMER_ID|default:null}" placeholder="{intl l='The Participate customer_id' d='contest.bo.default'}" />
             </div>
         {/form_field}
     {/capture}
@@ -245,6 +245,7 @@
         dialog_id       = "participate-delete"
         dialog_title    = {intl l="Delete an entry of Participate" d="contest.bo.default"}
         dialog_message  = {$smarty.capture.participate_delete nofilter}
+        form_content    = null
 
         dialog_ok_label     = {intl l="Delete"}
         dialog_cancel_label = {intl l="Cancel"}

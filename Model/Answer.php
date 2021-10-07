@@ -7,7 +7,6 @@
 namespace Contest\Model;
 
 use Contest\Model\Base\Answer as BaseAnswer;
-use Thelia\Model\Tools\ModelEventDispatcherTrait;
 
 /**
  * Class Answer
@@ -15,5 +14,5 @@ use Thelia\Model\Tools\ModelEventDispatcherTrait;
  */
 class Answer extends BaseAnswer
 {
-    use ModelEventDispatcherTrait;
+
 }

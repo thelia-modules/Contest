@@ -13,7 +13,7 @@
 
 {block name="main-content"}
 
-    {form name="answer.update"}
+    {form name="answer_update"}
         <div id="wrapper" class="container">
 
             {if $form_error}
@@ -54,7 +54,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="correct"}{$message}{/form_error}
+                                            {form_error form=$form field="correct"}{$message|default:null}{/form_error}
 
                                             <input type="checkbox" class="form-control" name="{$name}"
                                                    id="{$label_attr.for}" {if $CORRECT}checked{/if}
@@ -68,7 +68,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="title"}{$message}{/form_error}
+                                            {form_error form=$form field="title"}{$message|default:null}{/form_error}
 
                                             <input type="text" class="form-control" name="{$name}"
                                                    id="{$label_attr.for}" value="{$TITLE}"
@@ -82,7 +82,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="description"}{$message}{/form_error}
+                                            {form_error form=$form field="description"}{$message|default:null}{/form_error}
 
                                             <textarea class="form-control" name="{$name}" id="{$label_attr.for}"
                                                       placeholder="{intl l='The Answer description'}">{$DESCRIPTION}</textarea>
@@ -95,7 +95,7 @@
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="question_id"}{$message}{/form_error}
+                                            {form_error form=$form field="question_id"}{$message|default:null}{/form_error}
 
                                             <input type="number" class="form-control" name="{$name}"
                                                    id="{$label_attr.for}" value="{$QUESTION_ID}"

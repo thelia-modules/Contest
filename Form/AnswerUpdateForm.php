@@ -6,14 +6,28 @@
 
 namespace Contest\Form;
 
-use Contest\Form\Base\AnswerUpdateForm as BaseAnswerUpdateForm;
+use Contest\Form\AnswerCreateForm as ChildAnswerCreateForm;
+use Contest\Form\Type\AnswerIdType;
 
 /**
- * Class AnswerUpdateForm
+ * Class AnswerForm
  * @package Contest\Form
+ * @author TheliaStudio
  */
-class AnswerUpdateForm extends BaseAnswerUpdateForm
+class AnswerUpdateForm extends ChildAnswerCreateForm
 {
+    const FORM_NAME = "answer_update";
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("id", AnswerIdType::class)
+            ->remove("visible")
+        ;
+    }
+
     public function getTranslationKeys()
     {
         return array(

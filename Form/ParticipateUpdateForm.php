@@ -6,14 +6,27 @@
 
 namespace Contest\Form;
 
-use Contest\Form\Base\ParticipateUpdateForm as BaseParticipateUpdateForm;
+use Contest\Form\ParticipateCreateForm as ChildParticipateCreateForm;
+use Contest\Form\Type\ParticipateIdType;
 
 /**
- * Class ParticipateUpdateForm
+ * Class ParticipateForm
  * @package Contest\Form
+ * @author TheliaStudio
  */
-class ParticipateUpdateForm extends BaseParticipateUpdateForm
+class ParticipateUpdateForm extends ChildParticipateCreateForm
 {
+    const FORM_NAME = "participate_update";
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("id", ParticipateIdType::class)
+        ;
+    }
+
     public function getTranslationKeys()
     {
         return array(

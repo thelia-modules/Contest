@@ -14,7 +14,7 @@
 {block name="main-content"}
     <div id="wrapper" class="container">
 
-        {if $general_error}
+        {if $general_error|default:null}
             <div class="alert alert-danger">
                 {$general_error}
             </div>
@@ -72,7 +72,7 @@
                     </thead>
 
                     <tbody>
-                    {loop name="game-list" type="game" order=$order}
+                    {loop name="game-list" type="game"}
                         <tr>
                             <td>
                                 <a href="{url path='/admin/module/Contest/game/edit' game_id=$ID}">{$ID}</a>
@@ -151,50 +151,50 @@
 
     {* CREATE Modal *}
 
-    {form name="game.create"}
+    {form name="game_create"}
     {capture "game_create"}
-        {form_hidden_fields form=$form}
+        {form_hidden_fields}
 
-        {form_field form=$form field="locale"}
+        {form_field field="locale"}
             <input type="hidden" name="{$name}" value="{$edit_language_locale}" />
         {/form_field}
 
-        {render_form_field form=$form field="success_url" value={url path='/admin/module/Contest/game/edit?game_id=_ID_'}}
+        {render_form_field field="success_url" value={url path='/admin/module/Contest/game/edit?game_id=_ID_'}}
 
-        {form_field form=$form field="visible"}
+        {form_field field="visible"}
             <div class="form-group">
                 <label class="control-label" for="{$label_attr.for}">
                     {$label}
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="visible"}{$message}{/form_error}
+                {form_error field="visible"}{$message|default:null}{/form_error}
 
                 <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The Game visible' d='contest.bo.default'}" />
             </div>
         {/form_field}
-        {form_field form=$form field="title"}
+        {form_field field="title"}
             <div class="form-group">
                 <label class="control-label" for="{$label_attr.for}">
                     {$label}
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="title"}{$message}{/form_error}
+                {form_error field="title"}{$message|default:null}{/form_error}
 
                 <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Game title' d='contest.bo.default'}" />
             </div>
         {/form_field}
-        {form_field form=$form field="description"}
+        {form_field field="description"}
             <div class="form-group">
                 <label class="control-label" for="{$label_attr.for}">
                     {$label}
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="description"}{$message}{/form_error}
+                {form_error field="description"}{$message|default:null}{/form_error}
 
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The Game description' d='contest.bo.default'}">{$DESCRIPTION}</textarea>
+                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The Game description' d='contest.bo.default'}">{$DESCRIPTION|default:null}</textarea>
             </div>
         {/form_field}
     {/capture}
@@ -227,6 +227,7 @@
         dialog_id       = "game-delete"
         dialog_title    = {intl l="Delete an entry of Game" d="contest.bo.default"}
         dialog_message  = {$smarty.capture.game_delete nofilter}
+        form_content = null
 
         dialog_ok_label     = {intl l="Delete"}
         dialog_cancel_label = {intl l="Cancel"}

@@ -13,14 +13,14 @@
     <!--
         <form name="MyFormName" class="Contest\Form\MySuperForm" />
         -->
-    <form name="game.create" class="Contest\Form\GameCreateForm"/>
-    <form name="game.update" class="Contest\Form\GameUpdateForm"/>
-    <form name="question.create" class="Contest\Form\QuestionCreateForm"/>
-    <form name="question.update" class="Contest\Form\QuestionUpdateForm"/>
-    <form name="answer.create" class="Contest\Form\AnswerCreateForm"/>
-    <form name="answer.update" class="Contest\Form\AnswerUpdateForm"/>
-    <form name="participate.create" class="Contest\Form\ParticipateCreateForm"/>
-    <form name="participate.update" class="Contest\Form\ParticipateUpdateForm"/>
+    <form name="game_create" class="Contest\Form\GameCreateForm"/>
+    <form name="game_update" class="Contest\Form\GameUpdateForm"/>
+    <form name="question_create" class="Contest\Form\QuestionCreateForm"/>
+    <form name="question_update" class="Contest\Form\QuestionUpdateForm"/>
+    <form name="answer_create" class="Contest\Form\AnswerCreateForm"/>
+    <form name="answer_update" class="Contest\Form\AnswerUpdateForm"/>
+    <form name="participate_create" class="Contest\Form\ParticipateCreateForm"/>
+    <form name="participate_update" class="Contest\Form\ParticipateUpdateForm"/>
   </forms>
   <commands>
     <!--
@@ -35,7 +35,6 @@
   <hooks>
     <hook id="contest.admin.hook" class="Contest\Hook\BackHook" scope="request">
       <tag name="hook.event_listener" event="main.top-menu-tools" type="back" method="onTopMenuTools"/>
-      <argument type="service" id="router.contest"/>
     </hook>
     <hook id="contest.config.hook" class="Contest\Hook\ConfigHook" scope="request">
       <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfig" />
@@ -52,7 +51,7 @@
 
     </imports>
     -->
-  <services>
+  <!--<services>
     <service id="action.contest.game_table" class="Contest\Action\GameAction">
       <tag name="kernel.event_subscriber"/>
     </service>
@@ -86,5 +85,5 @@
       <argument type="service" id="mailer"/>
       <tag name="kernel.event_subscriber"/>
     </service>
-  </services>
+  </services>-->
 </config>

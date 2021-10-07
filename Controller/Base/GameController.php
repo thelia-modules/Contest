@@ -6,9 +6,13 @@
 
 namespace Contest\Controller\Base;
 
+use Contest\Form\GameCreateForm;
+use Contest\Form\GameUpdateForm;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Controller\Admin\AbstractCrudController;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Tools\URL;
 use Contest\Event\GameEvent;
 use Contest\Event\GameEvents;
@@ -43,7 +47,7 @@ class GameController extends AbstractCrudController
      */
     protected function getCreationForm()
     {
-        return $this->createForm("game.create");
+        return $this->createForm(GameCreateForm::FORM_NAME);
     }
 
     /**
@@ -55,7 +59,7 @@ class GameController extends AbstractCrudController
             $data = array();
         }
 
-        return $this->createForm("game.update", "form", $data);
+        return $this->createForm(GameUpdateForm::FORM_NAME, FormType::class, $data);
     }
 
     /**
@@ -63,7 +67,7 @@ class GameController extends AbstractCrudController
      *
      * @param mixed $object
      */
-    protected function hydrateObjectForm($object)
+    protected function hydrateObjectForm(ParserContext $parserContext, $object)
     {
         $data = array(
             "id" => $object->getId(),
@@ -103,7 +107,6 @@ class GameController extends AbstractCrudController
         $event = new GameEvent();
 
         $event->setId($formData["id"]);
-        $event->setVisible($formData["visible"]);
         $event->setTitle($formData["title"]);
         $event->setDescription($formData["description"]);
 

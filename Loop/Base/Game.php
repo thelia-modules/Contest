@@ -24,7 +24,6 @@ use Contest\Model\GameQuery;
 class Game extends BaseI18nLoop implements PropelSearchLoopInterface
 {
     protected $timestampable = true;
-    protected $versionable = true;
 
     /**
      * @param LoopResult $loopResult
@@ -107,7 +106,7 @@ class Game extends BaseI18nLoop implements PropelSearchLoopInterface
     public function buildModelCriteria()
     {
         $query = new GameQuery();
-        $this->configureI18nProcessing($query, ["TITLE", "DESCRIPTION", ]);
+        $this->configureI18nProcessing($query, ["TITLE", "DESCRIPTION"]);
 
         if (null !== $id = $this->getId()) {
             $query->filterById($id);

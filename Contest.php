@@ -10,6 +10,7 @@ use Contest\Model\AnswerQuery;
 use Contest\Model\Base\GameQuery;
 use Contest\Model\ParticipateQuery;
 use Contest\Model\QuestionQuery;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
@@ -51,17 +52,12 @@ class Contest extends BaseModule
         return $this->translator->trans($id, $parameters, self::MESSAGE_DOMAIN, $locale);
     }
 
-    public function postActivation(ConnectionInterface $con = null)
+    public function postActivation(ConnectionInterface $con = null): void
     {
-
-        try {
-            GameQuery::create()->findOne();
-            QuestionQuery::create()->findOne();
-            AnswerQuery::create()->findOne();
-            ParticipateQuery::create()->findOne();
-        } catch (\Exception $e) {
+        if (!self::getConfigValue('is_initialized', false)) {
             $database = new Database($con);
-            $database->insertSql(null, [__DIR__ . "/Config/create.sql", __DIR__ . "/Config/insert.sql"]);
+            $database->insertSql(null, [__DIR__ . "/Config/TheliaMain.sql"]);
+            self::setConfigValue('is_initialized', true);
         }
 
         //MAIL DECLARATION
@@ -114,5 +110,13 @@ class Contest extends BaseModule
         if (!$this->getConfigValue($name)) {
             $this->setConfigValue($name, $value);
         }
+    }
+
+    public static function configureServices(ServicesConfigurator $servicesConfigurator): void
+    {
+        $servicesConfigurator->load(self::getModuleCode().'\\', __DIR__)
+            ->exclude([THELIA_MODULE_DIR . ucfirst(self::getModuleCode()). "/I18n/*"])
+            ->autowire(true)
+            ->autoconfigure(true);
     }
 }

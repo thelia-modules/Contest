@@ -27,10 +27,10 @@
                         <noscript>
                             {if $WIN_OPTION}
                                 <a title="{intl l="Deactivate win option"}"
-                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID}">{intl l="deactivation" d="contest.bo.default"}</a>
+                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID|default:null}">{intl l="deactivation" d="contest.bo.default"}</a>
                             {else}
                                 <a title="{intl l="Activate win option"}"
-                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID}">{intl l="activation" d="contest.bo.default"}</a>
+                                   href="{url path="/admin/module/Contest/win/toggle" id=$ID|default:null}">{intl l="activation" d="contest.bo.default"}</a>
                             {/if}
                         </noscript>
                     </div>
